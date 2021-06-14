@@ -13,30 +13,30 @@ use RemCom\KauflandPhpClient\Traits\Storable;
 class Orders extends Model
 {
 
-    use FindOne, FindAll, Storable;
+    use FindOne, FindAll;
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'productnr',
+        'id_order',
     ];
 
     /**
      * @var string
      */
-    protected $url = 'orders';
+    protected $url = 'orders/seller/';
 
     /**
      * @var string
      */
-    protected $primaryKey = 'productnr';
+    protected $primaryKey = 'id_order';
 
     /**
      * @var string[]
      */
     protected $namespaces = [
-        'singular' => 'product',
-        'plural' => 'products'
+        'singular' => 'order',
+        'plural' => 'orders'
     ];
 }

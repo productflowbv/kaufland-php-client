@@ -17,7 +17,7 @@ class Connection
 
     protected $secret_key;
 
-    protected $url = 'https://www.kaufland.de/api/v1';
+    protected $url = 'https://www.kaufland.de/api/v1/';
 
     /**
      * Contains the HTTP client (Guzzle)
@@ -59,10 +59,10 @@ class Connection
         {
             return function (RequestInterface $request, array $options) use ($handler)
             {
-                $timestamp = date();
+                $timestamp = time();
 
-                $request = $request->withHeader('Hm-Timestamp', $timestamp);
-                $request = $request->withHeader('Hm-Signature', $this->signRequest('$methode', '$uri', '$json', $timestamp, $this->secret_key));
+//                $request = $request->withHeader('Hm-Timestamp', $timestamp);
+//                $request = $request->withHeader('Hm-Signature', $this->signRequest('GET', 'https://www.kaufland.de/api/v1/orders/seller/', '', $timestamp, $this->secret_key));
 
                 return $handler($request, $options);
             };
@@ -82,13 +82,16 @@ class Connection
 
         $handlerStack->push($this->handleAuthorizationHeader());
 
+        $time = time();
         $clientConfig = [
             'base_uri' => $this->url,
             'handler' => $handlerStack,
             'headers'  => [
                 'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
+//                'Content-Type' => 'application/json',
                 'Hm-Client' => $this->client_key,
+                'Hm-Timestamp' => $time,
+                'Hm-Signature' => $this->signRequest('GET', 'https://www.kaufland.de/api/v1/orders/seller/', '', $time, $this->secret_key)
             ]
         ];
 
@@ -108,10 +111,14 @@ class Connection
     public function get($url, $params = []): array
     {
         try {
+
+
             $result = $this->client()->get($url, ['query' => $params]);
 
             return $this->parseResponse($result);
         } catch (RequestException $e) {
+            print_r($e->getRequest());
+//            die();
             $responseBody = $e->getResponse()->getBody()->getContents();
             throw new KauflandException(sprintf('Kaufland error %s: %s', $e->getResponse()->getStatusCode(), $responseBody), $e->getResponse()->getStatusCode());
         }

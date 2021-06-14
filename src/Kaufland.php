@@ -2,6 +2,8 @@
 
 namespace RemCom\KauflandPhpClient;
 
+use RemCom\KauflandPhpClient\Models\Orders;
+
 /**
  * Class Kaufland
  * @package RemCom\KauflandPhpClient
@@ -51,5 +53,14 @@ class Kaufland
             $this->connection = new Connection($this->client_key, $this->secret_key);
         }
         return $this->connection;
+    }
+
+    /**
+     * @return Orders
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function Orders(): Orders
+    {
+        return new Orders($this->getConnection());
     }
 }
