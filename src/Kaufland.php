@@ -4,7 +4,7 @@ namespace RemCom\KauflandPhpClient;
 
 /**
  * Class Kaufland
- * @package UltiwebNL\FactuurSturenPhpClient
+ * @package RemCom\KauflandPhpClient
  */
 class Kaufland
 {

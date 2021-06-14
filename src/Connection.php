@@ -5,6 +5,7 @@ namespace RemCom\KauflandPhpClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RemCom\KauflandPhpClient\Exceptions\KauflandException;
 use RemCom\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
@@ -40,6 +41,34 @@ class Connection
         $this->secret_key = $secret_key;
     }
 
+    function signRequest($method, $uri, $body, $timestamp, $secretKey)
+    {
+        $string = implode("\n", [
+            $method,
+            $uri,
+            $body,
+            $timestamp,
+        ]);
+
+        return hash_hmac('sha256', $string, $secretKey);
+    }
+
+    private function handleAuthorizationHeader(): \Closure
+    {
+        return function (callable $handler)
+        {
+            return function (RequestInterface $request, array $options) use ($handler)
+            {
+                $timestamp = date();
+
+                $request = $request->withHeader('Hm-Timestamp', $timestamp);
+                $request = $request->withHeader('Hm-Signature', $this->signRequest('$methode', '$uri', '$json', $timestamp, $this->secret_key));
+
+                return $handler($request, $options);
+            };
+        };
+    }
+
     public function client(): Client
     {
         if ($this->client) {
@@ -51,17 +80,16 @@ class Connection
             $handlerStack->push($middleWare);
         }
 
+        $handlerStack->push($this->handleAuthorizationHeader());
+
         $clientConfig = [
             'base_uri' => $this->url,
-            'headers' => [
+            'handler' => $handlerStack,
+            'headers'  => [
                 'Accept' => 'application/json',
-                'Content-Type' => 'application/json'
-            ],
-            'auth' => [
-                $this->username,
-                $this->password
-            ],
-            'handler' => $handlerStack
+                'Content-Type' => 'application/json',
+                'Hm-Client' => $this->client_key,
+            ]
         ];
 
         $this->client = new Client($clientConfig);
