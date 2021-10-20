@@ -14,7 +14,7 @@ composer require RemCom/kaufland-php-client
 ```
 
 ## Set-up connection
-Prepare the client for connecting to FactuurSturen with your API key and API secret. (Optionally you can send your Partner id as 3rd param.)
+Prepare the client for connecting to Kaufland with your client key and secret key.
 ```php
 $kaufland = new \RemCom\KauflandPhpClient\Kaufland();
 $kaufland->setClientKey($clientkey);
