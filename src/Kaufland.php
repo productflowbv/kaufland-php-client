@@ -3,6 +3,7 @@
 namespace RemCom\KauflandPhpClient;
 
 use RemCom\KauflandPhpClient\Resources\Order;
+use RemCom\KauflandPhpClient\Resources\OrderUnit;
 
 /**
  * Class Kaufland
@@ -60,5 +61,13 @@ class Kaufland
     public function order()
     {
         return new Order($this->getConnection());
+    }
+
+    /**
+     * @return OrderUnit
+     */
+    public function orderUnit()
+    {
+        return new OrderUnit($this->getConnection());
     }
 }

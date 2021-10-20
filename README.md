@@ -9,3 +9,48 @@ An unofficial client for the Kaufland/Real.de API.
 ## Installation
 This project can easily be installed through Composer.
 
+```
+composer require RemCom/kaufland-php-client
+```
+
+## Set-up connection
+Prepare the client for connecting to FactuurSturen with your API key and API secret. (Optionally you can send your Partner id as 3rd param.)
+```php
+$kaufland = new \RemCom\KauflandPhpClient\Kaufland();
+$kaufland->setClientKey($clientkey);
+$kaufland->setSecretKey($secretkey);
+```
+
+## Get all order-units
+Returns an array of order-units
+```php
+$order_lists = $kaufland->orderUnit()->list();
+```
+
+## Supported endpoints (still being added)
+
+| Endpoint  | Status |
+| ------------- | ------------- |
+| attributes  | :x:  |
+| categories  | :x:  |
+| claim-messages  | :x:  |
+| claims  | :x:  |
+| import-files  | :x:  |
+| items  | :x:  |
+| product-data  | :x:  |
+| product-data-status  | :x:  |
+| orders  | :white_check_mark:  |
+| order-invoices  | :x:  |
+| order-units  | :ballot_box_with_check:  |
+| shipments  | :x:  |
+| reports  | :x:  |
+| returns  | :x:  |
+| return-units  | :x:  |
+| shipping-groups  | :x:  |
+| status  | :x:  |
+| subscriptions  | :x:  |
+| ticket-messages  | :x:  |
+| tickets  | :x:  |
+| warehouses  | :x:  |
+| units  | :x:  |
+

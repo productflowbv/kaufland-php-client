@@ -5,7 +5,7 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class Order extends Model
 {
-    public function list(array $status = [])
+    public function list()
     {
         return $this->connection->request('GET', 'orders/seller/', ['query' => $this->getQuery()]);
     }
@@ -16,6 +16,6 @@ class Order extends Model
      */
     public function show($identifier)
     {
-        return $this->connection->request('GET', "order/{$identifier}");
+        return $this->connection->request('GET', "orders/{$identifier}");
     }
 }

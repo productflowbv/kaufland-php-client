@@ -43,14 +43,15 @@ class Connection
         return hash_hmac('sha256', $string, $secretKey);
     }
 
-    public function getClient(){
+    public function getClient()
+    {
         if ($this->client) {
             return $this->client;
         }
 
         $clientConfig = [
             'base_uri' => $this->url,
-            'headers'  => [
+            'headers' => [
                 'Accept' => 'application/json',
                 'Hm-Client' => $this->client_key,
             ]
@@ -64,16 +65,22 @@ class Connection
     /**
      * @param string $method
      * @param string $uri
-     * @param  array  $options
+     * @param array $options
      * @return array|string Array if the response was JSON, raw response body otherwise.
      */
     public function request(string $method, string $uri, array $options = [])
     {
+
+        $query = '';
+        if (isset($options['query'])) {
+            $query = '?' . http_build_query($options['query'], null, '&');
+        }
+
         $timestamp = time();
         $header = [
             'Hm-Client' => $this->client_key,
             'Hm-Timestamp' => $timestamp,
-            'Hm-Signature' => $this->signRequest($method, $this->url . $uri, '', $timestamp, $this->secret_key),
+            'Hm-Signature' => $this->signRequest($method, $this->url . $uri . $query, '', $timestamp, $this->secret_key),
         ];
 
         $options['headers'] = $header;
@@ -84,12 +91,11 @@ class Connection
 
         // fallback to application/json as this is, apart from 1 call, the return type
         $default = 'application/json';
-        if (($response->getHeader('Content-Type')[0] ?? $default)  === 'application/json') {
+        if (($response->getHeader('Content-Type')[0] ?? $default) === 'application/json') {
             $array = json_decode($contents, true);
 
-            return (array) $array;
-        }
-        else {
+            return (array)$array;
+        } else {
             return $contents;
         }
     }
