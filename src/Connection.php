@@ -3,10 +3,6 @@
 namespace RemCom\KauflandPhpClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\HandlerStack;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use RemCom\KauflandPhpClient\Exceptions\KauflandException;
 use RemCom\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
 
@@ -24,12 +20,6 @@ class Connection
      * @var Client
      */
     private $client;
-
-    /**
-     * Array of inserted middleWares
-     * @var array
-     */
-    protected $middleWares = [];
 
     public function __construct(string $client_key, string $secret_key)
     {
@@ -53,45 +43,16 @@ class Connection
         return hash_hmac('sha256', $string, $secretKey);
     }
 
-    private function handleAuthorizationHeader(): \Closure
-    {
-        return function (callable $handler)
-        {
-            return function (RequestInterface $request, array $options) use ($handler)
-            {
-                $timestamp = time();
-
-//                $request = $request->withHeader('Hm-Timestamp', $timestamp);
-//                $request = $request->withHeader('Hm-Signature', $this->signRequest('GET', 'https://www.kaufland.de/api/v1/orders/seller/', '', $timestamp, $this->secret_key));
-
-                return $handler($request, $options);
-            };
-        };
-    }
-
-    public function client(): Client
-    {
+    public function getClient(){
         if ($this->client) {
             return $this->client;
         }
 
-        $handlerStack = HandlerStack::create();
-        foreach ($this->middleWares as $middleWare) {
-            $handlerStack->push($middleWare);
-        }
-
-        $handlerStack->push($this->handleAuthorizationHeader());
-
-        $time = time();
         $clientConfig = [
             'base_uri' => $this->url,
-            'handler' => $handlerStack,
             'headers'  => [
                 'Accept' => 'application/json',
-//                'Content-Type' => 'application/json',
                 'Hm-Client' => $this->client_key,
-                'Hm-Timestamp' => $time,
-                'Hm-Signature' => $this->signRequest('GET', 'https://www.kaufland.de/api/v1/orders/seller/', '', $time, $this->secret_key)
             ]
         ];
 
@@ -101,101 +62,35 @@ class Connection
     }
 
     /**
-     * Perform a GET request
-     * @param string $url
-     * @param array $params
-     * @return array
-     * @throws KauflandException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @param string $method
+     * @param string $uri
+     * @param  array  $options
+     * @return array|string Array if the response was JSON, raw response body otherwise.
      */
-    public function get($url, $params = []): array
+    public function request(string $method, string $uri, array $options = [])
     {
-        try {
+        $timestamp = time();
+        $header = [
+            'Hm-Client' => $this->client_key,
+            'Hm-Timestamp' => $timestamp,
+            'Hm-Signature' => $this->signRequest($method, $this->url . $uri, '', $timestamp, $this->secret_key),
+        ];
 
+        $options['headers'] = $header;
 
-            $result = $this->client()->get($url, ['query' => $params]);
+        $response = $this->getClient()->request($method, $uri, $options);
 
-            return $this->parseResponse($result);
-        } catch (RequestException $e) {
-            print_r($e->getRequest());
-//            die();
-            $responseBody = $e->getResponse()->getBody()->getContents();
-            throw new KauflandException(sprintf('Kaufland error %s: %s', $e->getResponse()->getStatusCode(), $responseBody), $e->getResponse()->getStatusCode());
+        $contents = $response->getBody()->getContents();
+
+        // fallback to application/json as this is, apart from 1 call, the return type
+        $default = 'application/json';
+        if (($response->getHeader('Content-Type')[0] ?? $default)  === 'application/json') {
+            $array = json_decode($contents, true);
+
+            return (array) $array;
         }
-    }
-
-    /**
-     * Perform a POST request
-     * @param string $url
-     * @param mixed $body
-     * @return array
-     * @throws KauflandException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function post($url, $body): array
-    {
-        try {
-            $result = $this->client()->post($url, ['body' => $body]);
-
-            return $this->parseResponse($result);
-        } catch (RequestException $e) {
-            $responseBody = $e->getResponse()->getBody()->getContents();
-            throw new KauflandException(sprintf('Kaufland error %s: %s', $e->getResponse()->getStatusCode(), $responseBody), $e->getResponse()->getStatusCode());
+        else {
+            return $contents;
         }
-    }
-
-    /**
-     * Perform PUT request
-     * @param string $url
-     * @param mixed $body
-     * @return array
-     * @throws KauflandException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function put($url, $body, $id): array
-    {
-        try {
-            $result = $this->client()->put($url, ['body' => $body]);
-            $this->parseResponse($result);
-            
-            return $this->parseResponse($result);
-        } catch (RequestException $e) {
-            $responseBody = $e->getResponse()->getBody()->getContents();
-            throw new KauflandException(sprintf('Kaufland error %s: %s', $e->getResponse()->getStatusCode(), $responseBody), $e->getResponse()->getStatusCode());
-        }
-    }
-
-    /**
-     * Perform DELETE request
-     * @param string $url
-     * @return array
-     * @throws KauflandException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function delete($url)
-    {
-        try {
-            $result = $this->client()->delete($url);
-            return $this->parseResponse($result);
-        } catch (RequestException $e) {
-            $responseBody = $e->getResponse()->getBody()->getContents();
-            throw new KauflandException(sprintf('Kaufland error %s: %s', $e->getResponse()->getStatusCode(), $responseBody), $e->getResponse()->getStatusCode());
-        }
-    }
-
-    /**
-     * @param ResponseInterface $response
-     * @return array Parsed JSON result
-     * @throws KauflandException
-     */
-    public function parseResponse(ResponseInterface $response)
-    {
-        // Rewind the response (middlewares might have read it already)
-        $response->getBody()->rewind();
-
-        $responseBody = $response->getBody()->getContents();
-        $resultArray = json_decode($responseBody, true);
-
-        return $resultArray;
     }
 }
