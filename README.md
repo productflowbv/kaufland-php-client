@@ -10,7 +10,7 @@ An unofficial client for the Kaufland/Real.de API.
 This project can easily be installed through Composer.
 
 ```
-composer require RemCom/kaufland-php-client
+composer require remcom/kaufland-php-client
 ```
 
 ## Set-up connection
@@ -28,6 +28,10 @@ $order_lists = $kaufland->orderUnit()->list();
 ```
 
 ## Supported endpoints (still being added)
+
+:white_check_mark: = Done, and tested
+:ballot_box_with_check: = Done, but not yet tested
+:x: = Not yet developed
 
 | Endpoint  | Status |
 | ------------- | ------------- |

@@ -70,10 +70,11 @@ class Connection
      */
     public function request(string $method, string $uri, array $options = [])
     {
-
         $query = '';
         if (isset($options['query'])) {
-            $query = '?' . http_build_query($options['query'], null, '&');
+            if(count($options['query'])){
+                $query = '?' . http_build_query($options['query'], null, '&');
+            }
         }
 
         $timestamp = time();

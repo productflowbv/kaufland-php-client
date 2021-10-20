@@ -14,19 +14,19 @@ class Model
     /**
      * @var int
      */
-    protected int $limit = 30;
+    protected $limit;
 
     /**
      * @var int
      */
-    protected int $offset = 0;
+    protected $offset;
 
     public function __construct($connection)
     {
         $this->connection = $connection;
     }
 
-    public function getLimit(): int
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
@@ -37,7 +37,7 @@ class Model
         return $this;
     }
 
-    public function getOffset(): int
+    public function getOffset(): ?int
     {
         return $this->offset;
     }
@@ -73,6 +73,7 @@ class Model
         $query = $this->filters;
         $query['limit'] = $this->getLimit();
         $query['offset'] = $this->getOffset();
-        return $query;
+
+        return array_filter($query);
     }
 }

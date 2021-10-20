@@ -6,7 +6,7 @@ class OrderUnit extends Model
 {
     public function list(array $status = [])
     {
-        return $this->connection->request('GET', 'order-units/seller/', ['query' => $this->getQuery() + ['status' => implode(',', $status)]]);
+        return $this->connection->request('GET', 'order-units/seller/', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status)])]);
     }
 
     /**
@@ -29,28 +29,31 @@ class OrderUnit extends Model
 
     /**
      * @param $identifier
+     * @param array $attributes
      * @return array
      */
-    public function cancel($identifier): array
+    public function cancel($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/cancel/");
+        return $this->connection->request('PATCH', "order-units/{$identifier}/cancel/", ['body' => $attributes]);
     }
 
     /**
      * @param $identifier
+     * @param array $attributes
      * @return array
      */
-    public function send($identifier): array
+    public function send($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/send/");
+        return $this->connection->request('PATCH', "order-units/{$identifier}/send/", ['body' => $attributes]);
     }
 
     /**
      * @param $identifier
+     * @param array $attributes
      * @return array
      */
-    public function refund($identifier): array
+    public function refund($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/refund/");
+        return $this->connection->request('PATCH', "order-units/{$identifier}/refund/", ['body' => $attributes]);
     }
 }
