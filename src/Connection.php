@@ -31,7 +31,7 @@ class Connection
         $this->secret_key = $secret_key;
     }
 
-    function signRequest($method, $uri, $body, $timestamp, $secretKey)
+    private function signRequest($method, $uri, $body, $timestamp, $secretKey)
     {
         $string = implode("\n", [
             $method,

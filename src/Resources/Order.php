@@ -2,7 +2,6 @@
 
 namespace RemCom\KauflandPhpClient\Resources;
 
-
 class Order extends Model
 {
     public function list()
