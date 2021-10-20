@@ -3,6 +3,7 @@
 namespace RemCom\KauflandPhpClient;
 
 use RemCom\KauflandPhpClient\Resources\Order;
+use RemCom\KauflandPhpClient\Resources\OrderInvoice;
 use RemCom\KauflandPhpClient\Resources\OrderUnit;
 
 /**
@@ -57,6 +58,7 @@ class Kaufland
 
     /**
      * @return Order
+     * @throws Exceptions\KauflandNoCredentialsException
      */
     public function order()
     {
@@ -65,9 +67,19 @@ class Kaufland
 
     /**
      * @return OrderUnit
+     * @throws Exceptions\KauflandNoCredentialsException
      */
     public function orderUnit()
     {
         return new OrderUnit($this->getConnection());
+    }
+
+    /**
+     * @return OrderInvoice
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function orderInvoice()
+    {
+        return new OrderInvoice($this->getConnection());
     }
 }

@@ -72,7 +72,7 @@ class Connection
     {
         $query = '';
         if (isset($options['query'])) {
-            if(count($options['query'])){
+            if (count($options['query'])) {
                 $query = '?' . http_build_query($options['query'], null, '&');
             }
         }

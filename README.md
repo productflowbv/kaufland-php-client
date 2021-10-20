@@ -44,7 +44,7 @@ $order_lists = $kaufland->orderUnit()->list();
 | product-data  | :x:  |
 | product-data-status  | :x:  |
 | orders  | :white_check_mark:  |
-| order-invoices  | :x:  |
+| order-invoices  | :ballot_box_with_check:  |
 | order-units  | :ballot_box_with_check:  |
 | shipments  | :x:  |
 | reports  | :x:  |
