@@ -77,11 +77,16 @@ class Connection
             }
         }
 
+        $body = '';
+        if (isset($options['body'])) {
+            $body = json_encode($options['body']);
+        }
+
         $timestamp = time();
         $header = [
             'Hm-Client' => $this->client_key,
             'Hm-Timestamp' => $timestamp,
-            'Hm-Signature' => $this->signRequest($method, $this->url . $uri . $query, '', $timestamp, $this->secret_key),
+            'Hm-Signature' => $this->signRequest($method, $this->url . $uri . $query, $body, $timestamp, $this->secret_key),
         ];
 
         $options['headers'] = $header;

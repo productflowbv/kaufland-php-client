@@ -2,9 +2,14 @@
 
 namespace RemCom\KauflandPhpClient;
 
+use RemCom\KauflandPhpClient\Resources\Attribute;
+use RemCom\KauflandPhpClient\Resources\Category;
 use RemCom\KauflandPhpClient\Resources\Order;
 use RemCom\KauflandPhpClient\Resources\OrderInvoice;
 use RemCom\KauflandPhpClient\Resources\OrderUnit;
+use RemCom\KauflandPhpClient\Resources\Returns;
+use RemCom\KauflandPhpClient\Resources\ReturnUnit;
+use RemCom\KauflandPhpClient\Resources\Shipment;
 
 /**
  * Class Kaufland
@@ -57,6 +62,24 @@ class Kaufland
     }
 
     /**
+     * @return Attribute
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function attribute()
+    {
+        return new Attribute($this->getConnection());
+    }
+
+    /**
+     * @return Category
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function Category()
+    {
+        return new Category($this->getConnection());
+    }
+
+    /**
      * @return Order
      * @throws Exceptions\KauflandNoCredentialsException
      */
@@ -81,5 +104,32 @@ class Kaufland
     public function orderInvoice()
     {
         return new OrderInvoice($this->getConnection());
+    }
+
+    /**
+     * @return Shipment
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function shipment()
+    {
+        return new Shipment($this->getConnection());
+    }
+
+    /**
+     * @return Returns
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function returns()
+    {
+        return new Returns($this->getConnection());
+    }
+
+    /**
+     * @return ReturnUnit
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function returnUnit()
+    {
+        return new ReturnUnit($this->getConnection());
     }
 }

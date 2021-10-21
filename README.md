@@ -35,8 +35,8 @@ $order_lists = $kaufland->orderUnit()->list();
 
 | Endpoint  | Status |
 | ------------- | ------------- |
-| attributes  | :x:  |
-| categories  | :x:  |
+| attributes  | :ballot_box_with_check:  |
+| categories  | :ballot_box_with_check:  |
 | claim-messages  | :x:  |
 | claims  | :x:  |
 | import-files  | :x:  |
@@ -46,10 +46,10 @@ $order_lists = $kaufland->orderUnit()->list();
 | orders  | :white_check_mark:  |
 | order-invoices  | :ballot_box_with_check:  |
 | order-units  | :ballot_box_with_check:  |
-| shipments  | :x:  |
+| shipments  | :ballot_box_with_check:  |
 | reports  | :x:  |
-| returns  | :x:  |
-| return-units  | :x:  |
+| returns  | :ballot_box_with_check:  |
+| return-units  | :ballot_box_with_check:  |
 | shipping-groups  | :x:  |
 | status  | :x:  |
 | subscriptions  | :x:  |
