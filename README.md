@@ -52,7 +52,7 @@ $order_lists = $kaufland->orderUnit()->list();
 | returns  | :ballot_box_with_check:  |
 | return-units  | :ballot_box_with_check:  |
 | shipping-groups  | :x:  |
-| status  | :x:  |
+| status  | :white_check_mark:  |
 | subscriptions  | :x:  |
 | ticket-messages  | :x:  |
 | tickets  | :x:  |

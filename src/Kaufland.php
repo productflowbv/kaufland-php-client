@@ -14,6 +14,7 @@ use RemCom\KauflandPhpClient\Resources\ProductDataStatus;
 use RemCom\KauflandPhpClient\Resources\Returns;
 use RemCom\KauflandPhpClient\Resources\ReturnUnit;
 use RemCom\KauflandPhpClient\Resources\Shipment;
+use RemCom\KauflandPhpClient\Resources\Status;
 
 /**
  * Class Kaufland
@@ -171,5 +172,14 @@ class Kaufland
     public function returnUnit()
     {
         return new ReturnUnit($this->getConnection());
+    }
+
+    /**
+     * @return Status
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function status()
+    {
+        return new Status($this->getConnection());
     }
 }
