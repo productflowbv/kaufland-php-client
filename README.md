@@ -1,4 +1,4 @@
-![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg) ![Unit Tests](https://github.com/RemCom/kaufland-php-client/workflows/Unit%20Tests/badge.svg) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/RemCom/kaufland-php-client/blob/master/LICENSE) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/remcom/kaufland-php-client?include_prereleases) ![Unit Tests](https://github.com/RemCom/kaufland-php-client/workflows/Unit%20Tests/badge.svg) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/RemCom/kaufland-php-client/blob/master/LICENSE) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
 # STILL WORK IN PROGRESS
 
@@ -54,8 +54,8 @@ $order_lists = $kaufland->orderUnit()->list();
 | shipping-groups  |  :ballot_box_with_check:  |
 | status  | :white_check_mark:  |
 | subscriptions  | :ballot_box_with_check:  |
-| ticket-messages  | :x:  |
-| tickets  | :x:  |
+| ticket-messages  | :ballot_box_with_check:  |
+| tickets  | :ballot_box_with_check:  |
 | warehouses  | :ballot_box_with_check:  |
 | units  | :ballot_box_with_check:  |
 

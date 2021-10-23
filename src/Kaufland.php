@@ -18,6 +18,8 @@ use RemCom\KauflandPhpClient\Resources\Shipment;
 use RemCom\KauflandPhpClient\Resources\ShippingGroup;
 use RemCom\KauflandPhpClient\Resources\Status;
 use RemCom\KauflandPhpClient\Resources\Subscription;
+use RemCom\KauflandPhpClient\Resources\Ticket;
+use RemCom\KauflandPhpClient\Resources\TicketMessage;
 use RemCom\KauflandPhpClient\Resources\Unit;
 use RemCom\KauflandPhpClient\Resources\Warehouse;
 
@@ -231,5 +233,23 @@ class Kaufland
     public function subscription()
     {
         return new Subscription($this->getConnection());
+    }
+
+    /**
+     * @return TicketMessage
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function ticketMessage()
+    {
+        return new TicketMessage($this->getConnection());
+    }
+
+    /**
+     * @return Ticket
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function ticket()
+    {
+        return new Ticket($this->getConnection());
     }
 }
