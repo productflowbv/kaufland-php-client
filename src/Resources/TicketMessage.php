@@ -4,6 +4,9 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class TicketMessage extends Model
 {
+    /**
+     * @return mixed
+     */
     public function list()
     {
         return $this->connection->request('GET', 'ticket-messages/seller/', ['query' => $this->getQuery()]);

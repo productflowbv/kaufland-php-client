@@ -4,6 +4,9 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class Order extends Model
 {
+    /**
+     * @return mixed
+     */
     public function list()
     {
         return $this->connection->request('GET', 'orders/seller/', ['query' => $this->getQuery()]);

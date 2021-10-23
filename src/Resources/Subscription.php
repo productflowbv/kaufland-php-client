@@ -4,6 +4,9 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class Subscription extends Model
 {
+    /**
+     * @return mixed
+     */
     public function list()
     {
         return $this->connection->request('GET', 'subscriptions/seller/', ['query' => $this->getQuery()]);

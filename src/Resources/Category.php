@@ -4,6 +4,9 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class Category extends Model
 {
+    /**
+     * @return array
+     */
     public function list()
     {
         return $this->connection->request('GET', 'categories/', ['query' => $this->getQuery()]);

@@ -4,6 +4,11 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class ImportFile extends Model
 {
+    /**
+     * @param array $status
+     * @param array $type
+     * @return mixed
+     */
     public function list(array $status = [], array $type = [])
     {
         return $this->connection->request('GET', 'import-files/', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status), 'type' => implode(',', $type)])]);

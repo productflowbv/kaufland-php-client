@@ -4,6 +4,12 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class Unit extends Model
 {
+    /**
+     * @param string $id_offer
+     * @param string $id_item
+     * @param string $ean
+     * @return mixed
+     */
     public function list(string $id_offer = '', string $id_item = '', string $ean = '')
     {
         return $this->connection->request('GET', 'units/seller/', ['query' => $this->getQuery() + array_filter(['id_offer' => $id_offer, 'id_item' => $id_item, 'ean' => $ean])]);

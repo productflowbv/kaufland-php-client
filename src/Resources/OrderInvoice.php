@@ -4,6 +4,9 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class OrderInvoice extends Model
 {
+    /**
+     * @return mixed
+     */
     public function list()
     {
         return $this->connection->request('GET', 'order-invoices/seller/', ['query' => $this->getQuery()]);

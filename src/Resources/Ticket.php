@@ -4,6 +4,12 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class Ticket extends Model
 {
+    /**
+     * @param array $status
+     * @param array $open_reason
+     * @param array $topic
+     * @return mixed
+     */
     public function list(array $status = [], array $open_reason = [], array $topic = [])
     {
         return $this->connection->request('GET', 'tickets/seller/', ['query' => $this->getQuery() + array_filter([

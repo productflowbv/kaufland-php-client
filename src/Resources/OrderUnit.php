@@ -4,6 +4,10 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class OrderUnit extends Model
 {
+    /**
+     * @param array $status
+     * @return mixed
+     */
     public function list(array $status = [])
     {
         return $this->connection->request('GET', 'order-units/seller/', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status)])]);

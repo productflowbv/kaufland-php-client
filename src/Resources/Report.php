@@ -4,6 +4,9 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class Report extends Model
 {
+    /**
+     * @return mixed
+     */
     public function list()
     {
         return $this->connection->request('GET', 'reports/', ['query' => $this->getQuery()]);

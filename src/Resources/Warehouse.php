@@ -4,6 +4,9 @@ namespace RemCom\KauflandPhpClient\Resources;
 
 class Warehouse extends Model
 {
+    /**
+     * @return mixed
+     */
     public function list()
     {
         return $this->connection->request('GET', 'warehouses/seller/', ['query' => $this->getQuery()]);
