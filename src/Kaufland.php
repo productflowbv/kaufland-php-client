@@ -40,6 +40,8 @@ class Kaufland
      */
     protected string $secret_key;
 
+    protected string $user_agent = 'Kaufland-php-client/V1';
+
     /**
      * @var Connection
      */
@@ -62,13 +64,21 @@ class Kaufland
     }
 
     /**
+     * @param string $user_agent
+     */
+    public function setUserAgent(string $user_agent): void
+    {
+        $this->user_agent = $user_agent;
+    }
+
+    /**
      * @return Connection
      * @throws Exceptions\KauflandNoCredentialsException
      */
     private function getConnection(): Connection
     {
         if ($this->connection == null) {
-            $this->connection = new Connection($this->client_key, $this->secret_key);
+            $this->connection = new Connection($this->client_key, $this->secret_key, $this->user_agent);
         }
         return $this->connection;
     }
