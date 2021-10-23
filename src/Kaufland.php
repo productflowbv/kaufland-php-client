@@ -9,6 +9,8 @@ use RemCom\KauflandPhpClient\Resources\Item;
 use RemCom\KauflandPhpClient\Resources\Order;
 use RemCom\KauflandPhpClient\Resources\OrderInvoice;
 use RemCom\KauflandPhpClient\Resources\OrderUnit;
+use RemCom\KauflandPhpClient\Resources\ProductData;
+use RemCom\KauflandPhpClient\Resources\ProductDataStatus;
 use RemCom\KauflandPhpClient\Resources\Returns;
 use RemCom\KauflandPhpClient\Resources\ReturnUnit;
 use RemCom\KauflandPhpClient\Resources\Shipment;
@@ -97,6 +99,24 @@ class Kaufland
     public function item()
     {
         return new Item($this->getConnection());
+    }
+
+    /**
+     * @return ProductData
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function productData()
+    {
+        return new ProductData($this->getConnection());
+    }
+
+    /**
+     * @return ProductDataStatus
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function productDataStatus()
+    {
+        return new ProductDataStatus($this->getConnection());
     }
 
     /**
