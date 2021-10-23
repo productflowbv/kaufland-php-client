@@ -3,6 +3,8 @@
 namespace RemCom\KauflandPhpClient;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 use RemCom\KauflandPhpClient\Exceptions\KauflandException;
 use RemCom\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
 
@@ -13,6 +15,8 @@ class Connection
 
     protected $secret_key;
 
+    protected $user_agent;
+
     protected $url = 'https://www.kaufland.de/api/v1/';
 
     /**
@@ -21,7 +25,7 @@ class Connection
      */
     private $client;
 
-    public function __construct(string $client_key, string $secret_key)
+    public function __construct(string $client_key, string $secret_key, string $user_agent)
     {
         if (!$client_key && !$secret_key) {
             throw new KauflandNoCredentialsException('No client_key and/or secret_key is set');
@@ -29,6 +33,7 @@ class Connection
 
         $this->client_key = $client_key;
         $this->secret_key = $secret_key;
+        $this->user_agent = $user_agent;
     }
 
     private function signRequest($method, $uri, $body, $timestamp, $secretKey)
@@ -54,6 +59,7 @@ class Connection
             'headers' => [
                 'Accept' => 'application/json',
                 'Hm-Client' => $this->client_key,
+                'User-Agent' => $this->user_agent
             ]
         ];
 
@@ -67,42 +73,65 @@ class Connection
      * @param string $uri
      * @param array $options
      * @return array|string Array if the response was JSON, raw response body otherwise.
+     * @throws KauflandException
      */
     public function request(string $method, string $uri, array $options = [])
     {
-        $query = '';
-        if (isset($options['query'])) {
-            if (count($options['query'])) {
-                $query = '?' . http_build_query($options['query'], null, '&');
+        try {
+            $query = '';
+            if (isset($options['query'])) {
+                if (count($options['query'])) {
+                    $query = '?' . http_build_query($options['query'], null, '&');
+                }
             }
+
+            $body = '';
+            if (isset($options['body'])) {
+                $body = json_encode($options['body']);
+            }
+
+            $timestamp = time();
+            $header = [
+                'Hm-Client' => $this->client_key,
+                'Hm-Timestamp' => $timestamp,
+                'Hm-Signature' => $this->signRequest($method, $this->url . $uri . $query, $body, $timestamp, $this->secret_key)
+            ];
+
+            $options['headers'] = $header;
+
+            $response = $this->getClient()->request($method, $uri, $options);
+
+            return $this->parseResponse($response);
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                $this->parseResponse($e->getResponse());
+            }
+
+            throw new KauflandException('Kaufland error: (no error message provided)' . $e->getResponse(), $e->getResponse()->getStatusCode());
         }
+    }
 
-        $body = '';
-        if (isset($options['body'])) {
-            $body = json_encode($options['body']);
-        }
+    /**
+     * @param ResponseInterface $response
+     * @return array Parsed JSON result
+     * @throws KauflandException
+     */
+    private function parseResponse(ResponseInterface $response): array
+    {
+        try {
+            // Rewind the response (middlewares might have read it already)
+            $response->getBody()->rewind();
 
-        $timestamp = time();
-        $header = [
-            'Hm-Client' => $this->client_key,
-            'Hm-Timestamp' => $timestamp,
-            'Hm-Signature' => $this->signRequest($method, $this->url . $uri . $query, $body, $timestamp, $this->secret_key),
-        ];
+            $response_body = $response->getBody()->getContents();
+            $result_array = json_decode($response_body, true);
 
-        $options['headers'] = $header;
+            if (!is_array($result_array)) {
+                throw new KauflandException(sprintf('Kaufland error %s: %s', $response->getStatusCode(), $response_body), $response->getStatusCode());
+            }
 
-        $response = $this->getClient()->request($method, $uri, $options);
-
-        $contents = $response->getBody()->getContents();
-
-        // fallback to application/json as this is, apart from 1 call, the return type
-        $default = 'application/json';
-        if (($response->getHeader('Content-Type')[0] ?? $default) === 'application/json') {
-            $array = json_decode($contents, true);
-
-            return (array)$array;
-        } else {
-            return $contents;
+            return $result_array;
+        } catch (\RuntimeException $e) {
+            throw new KauflandException('Kaufland error: ' . $e->getMessage());
         }
     }
 }
