@@ -11,10 +11,14 @@ use RemCom\KauflandPhpClient\Resources\OrderInvoice;
 use RemCom\KauflandPhpClient\Resources\OrderUnit;
 use RemCom\KauflandPhpClient\Resources\ProductData;
 use RemCom\KauflandPhpClient\Resources\ProductDataStatus;
+use RemCom\KauflandPhpClient\Resources\Report;
 use RemCom\KauflandPhpClient\Resources\Returns;
 use RemCom\KauflandPhpClient\Resources\ReturnUnit;
 use RemCom\KauflandPhpClient\Resources\Shipment;
+use RemCom\KauflandPhpClient\Resources\ShippingGroup;
 use RemCom\KauflandPhpClient\Resources\Status;
+use RemCom\KauflandPhpClient\Resources\Unit;
+use RemCom\KauflandPhpClient\Resources\Warehouse;
 
 /**
  * Class Kaufland
@@ -181,5 +185,41 @@ class Kaufland
     public function status()
     {
         return new Status($this->getConnection());
+    }
+
+    /**
+     * @return Report
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function report()
+    {
+        return new Report($this->getConnection());
+    }
+
+    /**
+     * @return ShippingGroup
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function shippingGroup()
+    {
+        return new ShippingGroup($this->getConnection());
+    }
+
+    /**
+     * @return Unit
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function unit()
+    {
+        return new Unit($this->getConnection());
+    }
+
+    /**
+     * @return Warehouse
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function warehouse()
+    {
+        return new Warehouse($this->getConnection());
     }
 }

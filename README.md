@@ -48,14 +48,14 @@ $order_lists = $kaufland->orderUnit()->list();
 | order-invoices  | :ballot_box_with_check:  |
 | order-units  | :ballot_box_with_check:  |
 | shipments  | :ballot_box_with_check:  |
-| reports  | :x:  |
+| reports  | :ballot_box_with_check:  |
 | returns  | :ballot_box_with_check:  |
 | return-units  | :ballot_box_with_check:  |
-| shipping-groups  | :x:  |
+| shipping-groups  |  :ballot_box_with_check:  |
 | status  | :white_check_mark:  |
 | subscriptions  | :x:  |
 | ticket-messages  | :x:  |
 | tickets  | :x:  |
-| warehouses  | :x:  |
-| units  | :x:  |
+| warehouses  | :ballot_box_with_check:  |
+| units  | :ballot_box_with_check:  |
 
