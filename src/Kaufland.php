@@ -17,6 +17,7 @@ use RemCom\KauflandPhpClient\Resources\ReturnUnit;
 use RemCom\KauflandPhpClient\Resources\Shipment;
 use RemCom\KauflandPhpClient\Resources\ShippingGroup;
 use RemCom\KauflandPhpClient\Resources\Status;
+use RemCom\KauflandPhpClient\Resources\Subscription;
 use RemCom\KauflandPhpClient\Resources\Unit;
 use RemCom\KauflandPhpClient\Resources\Warehouse;
 
@@ -221,5 +222,14 @@ class Kaufland
     public function warehouse()
     {
         return new Warehouse($this->getConnection());
+    }
+
+    /**
+     * @return Subscription
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function subscription()
+    {
+        return new Subscription($this->getConnection());
     }
 }
