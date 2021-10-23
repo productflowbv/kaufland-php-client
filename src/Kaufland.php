@@ -4,6 +4,8 @@ namespace RemCom\KauflandPhpClient;
 
 use RemCom\KauflandPhpClient\Resources\Attribute;
 use RemCom\KauflandPhpClient\Resources\Category;
+use RemCom\KauflandPhpClient\Resources\ImportFile;
+use RemCom\KauflandPhpClient\Resources\Item;
 use RemCom\KauflandPhpClient\Resources\Order;
 use RemCom\KauflandPhpClient\Resources\OrderInvoice;
 use RemCom\KauflandPhpClient\Resources\OrderUnit;
@@ -74,9 +76,27 @@ class Kaufland
      * @return Category
      * @throws Exceptions\KauflandNoCredentialsException
      */
-    public function Category()
+    public function category()
     {
         return new Category($this->getConnection());
+    }
+
+    /**
+     * @return ImportFile
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function importFile()
+    {
+        return new ImportFile($this->getConnection());
+    }
+
+    /**
+     * @return Item
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function item()
+    {
+        return new Item($this->getConnection());
     }
 
     /**
