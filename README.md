@@ -29,16 +29,17 @@ $order_lists = $kaufland->orderUnit()->list();
 
 ## Supported endpoints (still being added)
 
-:white_check_mark: = Done, and tested
-:ballot_box_with_check: = Done, but not yet tested
-:x: = Not yet developed
+:white_check_mark: = Done, and tested<br />
+:ballot_box_with_check: = Done, but not yet tested<br />
+:x: = Not yet developed<br />
+:heavy_exclamation_mark: = deprecated/not supported <br />
 
 | Endpoint  | Status |
 | ------------- | ------------- |
 | attributes  | :ballot_box_with_check:  |
 | categories  | :ballot_box_with_check:  |
-| claim-messages  | :x:  |
-| claims  | :x:  |
+| claim-messages  | :heavy_exclamation_mark: |
+| claims  | :heavy_exclamation_mark:  |
 | import-files  | :x:  |
 | items  | :x:  |
 | product-data  | :x:  |
