@@ -107,7 +107,7 @@ class Connection
                 $this->parseResponse($e->getResponse());
             }
 
-            throw new KauflandException('Kaufland error: (no error message provided)' . $e->getResponse(), $e->getResponse()->getStatusCode());
+            throw new KauflandException('Kaufland error: ' . $e->getResponse()->getReasonPhrase(), $e->getResponse()->getStatusCode());
         }
     }
 
