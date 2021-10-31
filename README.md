@@ -37,7 +37,7 @@ $order_lists = $kaufland->orderUnit()->list();
 | Endpoint  | Status |
 | ------------- | ------------- |
 | attributes  | :ballot_box_with_check:  |
-| categories  | :ballot_box_with_check:  |
+| categories  | :white_check_mark:  |
 | claim-messages  | :heavy_exclamation_mark: |
 | claims  | :heavy_exclamation_mark:  |
 | import-files  | :ballot_box_with_check:  |
