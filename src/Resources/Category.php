@@ -14,11 +14,12 @@ class Category extends Model
 
     /**
      * @param $identifier
+     * @param array $embedded
      * @return array
      */
-    public function show($identifier)
+    public function show($identifier, $embedded = [])
     {
-        return $this->connection->request('GET', "categories/{$identifier}");
+        return $this->connection->request('GET', "categories/{$identifier}", ['query' => array_filter(['embedded' => implode(',', $embedded)])]);
     }
 
     /**
