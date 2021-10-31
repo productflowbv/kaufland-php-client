@@ -19,7 +19,7 @@ class Category extends Model
      */
     public function show($identifier, $embedded = [])
     {
-        return $this->connection->request('GET', "categories/{$identifier}", [array_filter(['embedded' => implode(',', $embedded)])]);
+        return $this->connection->request('GET', "categories/{$identifier}", ['query' => array_filter(['embedded' => implode(',', $embedded)])]);
     }
 
     /**
