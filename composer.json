@@ -9,12 +9,12 @@
     "REAL.de",
     "hitmeister"
   ],
-  "homepage": "http://github.com/",
+  "homepage": "https://www.remcom.dev/",
   "license": "MIT",
   "authors": [
     {
       "name": "Remco van Essen",
-      "email": "remco@productflow.com"
+      "email": "info@remcom.dev"
     }
   ],
   "require": {
