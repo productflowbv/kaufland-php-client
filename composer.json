@@ -1,5 +1,5 @@
 {
-  "name": "remcom/kaufland-php-client",
+  "name": "productflowbv/kaufland-php-client",
   "type": "library",
   "description": "A PHP Client for the Kaufland/REAL.de API",
   "keywords": [
@@ -30,7 +30,7 @@
   },
   "autoload": {
     "psr-4": {
-      "RemCom\\KauflandPhpClient\\": "src/"
+      "ProductFlow\\KauflandPhpClient\\": "src/"
     }
   }
 }
