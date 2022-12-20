@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient;
+namespace ProductFlow\KauflandPhpClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;

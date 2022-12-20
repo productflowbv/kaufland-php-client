@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient;
+namespace ProductFlow\KauflandPhpClient;
 
 use RemCom\KauflandPhpClient\Resources\Attribute;
 use RemCom\KauflandPhpClient\Resources\Category;
