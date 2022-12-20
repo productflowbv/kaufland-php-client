@@ -5,8 +5,8 @@ namespace ProductFlow\KauflandPhpClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
-use RemCom\KauflandPhpClient\Exceptions\KauflandException;
-use RemCom\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
+use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
+use ProductFlow\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
 
 class Connection
 {

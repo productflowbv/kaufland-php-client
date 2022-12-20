@@ -2,59 +2,48 @@
 
 namespace ProductFlow\KauflandPhpClient\Resources;
 
+use ProductFlow\KauflandPhpClient\Connection;
+
 class Model
 {
-    protected $connection;
+    protected Connection $connection;
 
-    /**
-     * @var array
-     */
-    protected $filters = [];
+    protected array $filters = [];
 
-    /**
-     * @var int
-     */
-    protected $limit;
+    protected int $limit = 20;
 
-    /**
-     * @var int
-     */
-    protected $offset;
+    protected int $offset = 0;
 
-    public function __construct($connection)
+    protected array $query = [];
+
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
-    public function getLimit(): ?int
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
-    public function setLimit(int $limit)
+    public function setLimit(int $limit): static
     {
         $this->limit = $limit;
         return $this;
     }
 
-    public function getOffset(): ?int
+    public function getOffset(): int
     {
         return $this->offset;
     }
 
-    public function setOffset(int $offset)
+    public function setOffset(int $offset): static
     {
         $this->offset = $offset;
         return $this;
     }
 
-    /**
-     * @param string $column
-     * @param $operation
-     * @param null $value
-     * @return $this
-     */
-    public function filter(string $column, $operation, $value = null)
+    public function setFilter(string $column, $operation, $value = null): static
     {
         if (is_null($value)) {
             $value = $operation;
@@ -65,15 +54,23 @@ class Model
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    protected function getQuery(): array
+    public function getQuery(): array
     {
-        $query = $this->filters;
-        $query['limit'] = $this->getLimit();
-        $query['offset'] = $this->getOffset();
+        return array_merge(
+            $this->query,
+            $this->filters,
+            [ 'limit' => $this->getLimit(), 'offset' => $this->getOffset() ]
+        );
+    }
 
-        return array_filter($query);
+    public function setQuery(string|array $key, mixed $value = null): static
+    {
+        if (is_array($key)) {
+            $this->query = $key;
+        } else {
+            $this->query[$key] = $value;
+        }
+
+        return $this;
     }
 }

@@ -2,26 +2,26 @@
 
 namespace ProductFlow\KauflandPhpClient;
 
-use RemCom\KauflandPhpClient\Resources\Attribute;
-use RemCom\KauflandPhpClient\Resources\Category;
-use RemCom\KauflandPhpClient\Resources\ImportFile;
-use RemCom\KauflandPhpClient\Resources\Item;
-use RemCom\KauflandPhpClient\Resources\Order;
-use RemCom\KauflandPhpClient\Resources\OrderInvoice;
-use RemCom\KauflandPhpClient\Resources\OrderUnit;
-use RemCom\KauflandPhpClient\Resources\ProductData;
-use RemCom\KauflandPhpClient\Resources\ProductDataStatus;
-use RemCom\KauflandPhpClient\Resources\Report;
-use RemCom\KauflandPhpClient\Resources\Returns;
-use RemCom\KauflandPhpClient\Resources\ReturnUnit;
-use RemCom\KauflandPhpClient\Resources\Shipment;
-use RemCom\KauflandPhpClient\Resources\ShippingGroup;
-use RemCom\KauflandPhpClient\Resources\Status;
-use RemCom\KauflandPhpClient\Resources\Subscription;
-use RemCom\KauflandPhpClient\Resources\Ticket;
-use RemCom\KauflandPhpClient\Resources\TicketMessage;
-use RemCom\KauflandPhpClient\Resources\Unit;
-use RemCom\KauflandPhpClient\Resources\Warehouse;
+use ProductFlow\KauflandPhpClient\Resources\Attribute;
+use ProductFlow\KauflandPhpClient\Resources\Category;
+use ProductFlow\KauflandPhpClient\Resources\ImportFile;
+use ProductFlow\KauflandPhpClient\Resources\Item;
+use ProductFlow\KauflandPhpClient\Resources\Order;
+use ProductFlow\KauflandPhpClient\Resources\OrderInvoice;
+use ProductFlow\KauflandPhpClient\Resources\OrderUnit;
+use ProductFlow\KauflandPhpClient\Resources\ProductData;
+use ProductFlow\KauflandPhpClient\Resources\ProductDataStatus;
+use ProductFlow\KauflandPhpClient\Resources\Report;
+use ProductFlow\KauflandPhpClient\Resources\Returns;
+use ProductFlow\KauflandPhpClient\Resources\ReturnUnit;
+use ProductFlow\KauflandPhpClient\Resources\Shipment;
+use ProductFlow\KauflandPhpClient\Resources\ShippingGroup;
+use ProductFlow\KauflandPhpClient\Resources\Status;
+use ProductFlow\KauflandPhpClient\Resources\Subscription;
+use ProductFlow\KauflandPhpClient\Resources\Ticket;
+use ProductFlow\KauflandPhpClient\Resources\TicketMessage;
+use ProductFlow\KauflandPhpClient\Resources\Unit;
+use ProductFlow\KauflandPhpClient\Resources\Warehouse;
 
 /**
  * Class Kaufland
@@ -50,25 +50,31 @@ class Kaufland
     /**
      * @param string $client_key
      */
-    public function setClientKey(string $client_key): void
+    public function setClientKey(string $client_key): static
     {
         $this->client_key = $client_key;
+
+        return $this;
     }
 
     /**
      * @param string $secret_key
      */
-    public function setSecretKey(string $secret_key): void
+    public function setSecretKey(string $secret_key): static
     {
         $this->secret_key = $secret_key;
+
+        return $this;
     }
 
     /**
      * @param string $user_agent
      */
-    public function setUserAgent(string $user_agent): void
+    public function setUserAgent(string $user_agent): static
     {
         $this->user_agent = $user_agent;
+
+        return $this;
     }
 
     /**
