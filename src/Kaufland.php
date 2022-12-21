@@ -10,7 +10,6 @@ use ProductFlow\KauflandPhpClient\Resources\Order;
 use ProductFlow\KauflandPhpClient\Resources\OrderInvoice;
 use ProductFlow\KauflandPhpClient\Resources\OrderUnit;
 use ProductFlow\KauflandPhpClient\Resources\ProductData;
-use ProductFlow\KauflandPhpClient\Resources\ProductDataStatus;
 use ProductFlow\KauflandPhpClient\Resources\Report;
 use ProductFlow\KauflandPhpClient\Resources\Returns;
 use ProductFlow\KauflandPhpClient\Resources\ReturnUnit;
@@ -133,16 +132,7 @@ class Kaufland
     {
         return new ProductData($this->getConnection());
     }
-
-    /**
-     * @return ProductDataStatus
-     * @throws Exceptions\KauflandNoCredentialsException
-     */
-    public function productDataStatus()
-    {
-        return new ProductDataStatus($this->getConnection());
-    }
-
+    
     /**
      * @return Order
      * @throws Exceptions\KauflandNoCredentialsException

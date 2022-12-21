@@ -10,7 +10,7 @@ class ProductData extends Model
      */
     public function show($ean)
     {
-        return $this->connection->request('GET', "items/{$ean}");
+        return $this->connection->request('GET', "product-data/{$ean}");
     }
 
     /**
@@ -20,7 +20,7 @@ class ProductData extends Model
      */
     public function create($ean, array $attributes): array
     {
-        return $this->connection->request('PUT', "items/{$ean}", ['body' => $attributes]);
+        return $this->connection->request('PUT', "product-data/{$ean}", ['body' => $attributes]);
     }
 
     /**
@@ -30,7 +30,7 @@ class ProductData extends Model
      */
     public function update(array $attributes): array
     {
-        return $this->connection->request('PATCH', 'items', ['body' => $attributes]);
+        return $this->connection->request('PATCH', 'product-data', ['body' => $attributes]);
     }
 
     /**
@@ -39,6 +39,15 @@ class ProductData extends Model
      */
     public function delete($ean): array
     {
-        return $this->connection->request('DELETE', "items/{$ean}");
+        return $this->connection->request('DELETE', "product-data/{$ean}");
+    }
+
+    /**
+     * @param $ean
+     * @return array
+     */
+    public function status($ean)
+    {
+        return $this->connection->request('GET', "product-data/status/{$ean}", ['query' => $this->getQuery()]);
     }
 }
