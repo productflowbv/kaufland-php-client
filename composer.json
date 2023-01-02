@@ -15,6 +15,10 @@
     {
       "name": "Remco van Essen",
       "email": "remco@productflow.com"
+    },
+    {
+      "name": "Jordy Elfferich",
+      "email": "jordy@productflow.com"
     }
   ],
   "require": {
