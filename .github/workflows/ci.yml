@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require --no-interaction --no-update
+          composer install --no-interaction --no-update
 
       - name: Run phplint - Syntax check
         run: ./vendor/bin/phplint -c  ci/phplint.yml src
