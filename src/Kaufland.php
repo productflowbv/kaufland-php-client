@@ -24,7 +24,7 @@ use ProductFlow\KauflandPhpClient\Resources\Warehouse;
 
 /**
  * Class Kaufland
- * @package RemCom\KauflandPhpClient
+ * @package ProductFlow\KauflandPhpClient
  */
 class Kaufland
 {
