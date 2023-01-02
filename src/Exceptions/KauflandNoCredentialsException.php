@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Exceptions;
+namespace ProductFlow\KauflandPhpClient\Exceptions;
 
 class KauflandNoCredentialsException extends KauflandException
 {

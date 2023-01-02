@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class OrderUnit extends Model
 {
@@ -10,7 +10,7 @@ class OrderUnit extends Model
      */
     public function list(array $status = [])
     {
-        return $this->connection->request('GET', 'order-units/seller/', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status)])]);
+        return $this->connection->request('GET', 'order-units', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status)])]);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class Warehouse extends Model
 {

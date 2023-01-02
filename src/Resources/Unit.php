@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class Unit extends Model
 {
@@ -29,9 +29,9 @@ class Unit extends Model
      * @param array $attributes
      * @return array
      */
-    public function create($identifier, array $attributes): array
+    public function create(array $attributes): array
     {
-        return $this->connection->request('POST', "units/{$identifier}", ['body' => $attributes]);
+        return $this->connection->request('POST', 'units', ['body' => $attributes]);
     }
 
     /**

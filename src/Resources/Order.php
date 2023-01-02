@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class Order extends Model
 {
@@ -9,7 +9,7 @@ class Order extends Model
      */
     public function list()
     {
-        return $this->connection->request('GET', 'orders/seller/', ['query' => $this->getQuery()]);
+        return $this->connection->request('GET', 'orders/', ['query' => $this->getQuery()]);
     }
 
     /**
@@ -18,6 +18,6 @@ class Order extends Model
      */
     public function show($identifier)
     {
-        return $this->connection->request('GET', "orders/{$identifier}");
+        return $this->connection->request('GET', "orders/{$identifier}", ['query' => $this->getQuery()]);
     }
 }
