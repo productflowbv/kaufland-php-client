@@ -53,6 +53,7 @@ class Connection
             $this->client = new Client([
                 'base_uri' => $this->url,
                 'headers' => [
+                    'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
                     'Shop-Client-Key' => $this->client_key,
                     'User-Agent' => $this->user_agent
