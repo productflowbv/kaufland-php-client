@@ -18,9 +18,9 @@ class ProductData extends Model
      * @param array $attributes
      * @return array
      */
-    public function create($ean, array $attributes): array
+    public function create(array $attributes): array
     {
-        return $this->connection->request('PUT', "product-data/{$ean}", ['body' => $attributes]);
+        return $this->connection->request('PUT', "product-data", ['body' => $attributes, 'query' => $this->getQuery()]);
     }
 
     /**
@@ -30,7 +30,7 @@ class ProductData extends Model
      */
     public function update(array $attributes): array
     {
-        return $this->connection->request('PATCH', 'product-data', ['body' => $attributes]);
+        return $this->connection->request('PATCH', 'product-data', ['body' => $attributes, 'query' => $this->getQuery()]);
     }
 
     /**
