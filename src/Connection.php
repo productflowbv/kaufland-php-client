@@ -83,6 +83,7 @@ class Connection
 
             if (! empty($options['body'])) {
                 $body = json_encode($options['body']);
+                $options['body'] = json_encode($options['body']);
             }
 
             $header = [

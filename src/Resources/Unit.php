@@ -31,7 +31,7 @@ class Unit extends Model
      */
     public function create(array $attributes): array
     {
-        return $this->connection->request('POST', 'units', ['body' => $attributes]);
+        return $this->connection->request('POST', 'units', ['body' => $attributes, 'query' => $this->getQuery()]);
     }
 
     /**
@@ -41,7 +41,7 @@ class Unit extends Model
      */
     public function update($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "units/{$identifier}", ['body' => $attributes]);
+        return $this->connection->request('PATCH', "units/{$identifier}", ['body' => $attributes, 'query' => $this->getQuery()]);
     }
 
     /**
