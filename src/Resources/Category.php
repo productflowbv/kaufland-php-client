@@ -17,7 +17,7 @@ class Category extends Model
      */
     public function list()
     {
-        return $this->connection->request('GET', 'categories/', ['query' => $this->getQuery()]);
+        return $this->connection->request('GET', 'categories', ['query' => $this->getQuery()]);
     }
 
     /**
@@ -36,6 +36,6 @@ class Category extends Model
      */
     public function decide(array $attributes): array
     {
-        return $this->connection->request('POST', "categories/decide/", ['body' => $attributes]);
+        return $this->connection->request('POST', "categories/decide", ['body' => $attributes]);
     }
 }

@@ -28,7 +28,7 @@ class Returns extends Model
      */
     public function create(array $attributes): array
     {
-        return $this->connection->request('POST', "returns/", ['body' => $attributes]);
+        return $this->connection->request('POST', "returns", ['body' => $attributes]);
     }
 
     /**
