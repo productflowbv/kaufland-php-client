@@ -1,4 +1,4 @@
-![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/productflowbv/kaufland-php-client?include_prereleases) ![Unit Tests](https://github.com/productflowbv/kaufland-php-client/workflows/Unit%20Tests/badge.svg) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/productflowbv/kaufland-php-client/blob/master/LICENSE) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/productflowbv/kaufland-php-client?include_prereleases) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/productflowbv/kaufland-php-client/blob/master/LICENSE) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
 # STILL WORK IN PROGRESS
 
