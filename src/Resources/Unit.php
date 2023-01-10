@@ -50,6 +50,6 @@ class Unit extends Model
      */
     public function delete($identifier): array
     {
-        return $this->connection->request('DELETE', "units/{$identifier}");
+        return $this->connection->request('DELETE', "units/{$identifier}", ['query' => $this->getQuery()]);
     }
 }
