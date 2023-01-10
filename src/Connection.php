@@ -108,7 +108,7 @@ class Connection
             }
 
             throw new KauflandException(
-                'Kaufland error: ' . $e->getResponse()->getReasonPhrase(),
+                'Kaufland error: ' . $e->getResponse()->getBody(),
                 $e->getResponse()->getStatusCode()
             );
         }

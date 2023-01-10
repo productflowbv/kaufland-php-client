@@ -9,6 +9,6 @@ class Status extends Model
      */
     public function ping()
     {
-        return $this->connection->request('GET', "status/ping/");
+        return $this->connection->request('GET', "status/ping");
     }
 }
