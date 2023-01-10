@@ -128,6 +128,10 @@ class Connection
             $response_body = $response->getBody()->getContents();
             $result_array = json_decode($response_body, true);
 
+            if ($response->getStatusCode() === 204) {
+                return [];
+            }
+
             if (! is_array($result_array)) {
                 throw new KauflandException(sprintf('Kaufland error %s: %s', $response->getStatusCode(), $response_body), $response->getStatusCode());
             }
