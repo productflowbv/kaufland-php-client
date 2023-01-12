@@ -2,22 +2,23 @@
 
 namespace ProductFlow\KauflandPhpClient\Resources;
 
+use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
+
 class Unit extends Model
 {
     /**
-     * @param string $id_offer
-     * @param string $id_item
-     * @param string $ean
-     * @return mixed
+     * @return array|string
+     * @throws KauflandException
      */
-    public function list(string $id_offer = '', string $id_item = '', string $ean = '')
+    public function list()
     {
-        return $this->connection->request('GET', 'units/seller/', ['query' => $this->getQuery() + array_filter(['id_offer' => $id_offer, 'id_item' => $id_item, 'ean' => $ean])]);
+        return $this->connection->request('GET', 'units', ['query' => $this->getQuery()]);
     }
 
     /**
      * @param $identifier
      * @return array
+     * @throws KauflandException
      */
     public function show($identifier): array
     {
@@ -25,9 +26,9 @@ class Unit extends Model
     }
 
     /**
-     * @param $identifier
      * @param array $attributes
      * @return array
+     * @throws KauflandException
      */
     public function create(array $attributes): array
     {
@@ -38,6 +39,7 @@ class Unit extends Model
      * @param $identifier
      * @param array $attributes
      * @return array
+     * @throws KauflandException
      */
     public function update($identifier, array $attributes): array
     {
@@ -47,6 +49,7 @@ class Unit extends Model
     /**
      * @param $identifier
      * @return array
+     * @throws KauflandException
      */
     public function delete($identifier): array
     {
