@@ -6,7 +6,7 @@
         <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
     </rule>
 
-    <rule ref="PSR2"/>
+    <rule ref="PSR12"/>
 
     <rule ref="PSR2.Classes.ClassDeclaration"/>
     <rule ref="PSR2.Classes.PropertyDeclaration"/>

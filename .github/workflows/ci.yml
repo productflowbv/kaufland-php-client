@@ -34,3 +34,6 @@ jobs:
         run: ./vendor/bin/phplint -c  ci/phplint.yml src
       - name: Run phpcs - PSR2 check
         run: ./vendor/bin/phpcs --standard=ci/phpbcs.xml src
+      - name: Run phpstan - static code analysis
+        run: ./vendor/bin/phpstan analyse -c ci/phpstan.neon --memory-limit=256M
+

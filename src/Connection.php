@@ -3,6 +3,7 @@
 namespace ProductFlow\KauflandPhpClient;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
@@ -10,20 +11,23 @@ use ProductFlow\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
 
 class Connection
 {
-    protected $client_key;
+    protected string $client_key;
 
-    protected $secret_key;
+    protected string $secret_key;
 
-    protected $user_agent;
+    protected string $user_agent;
 
-    protected $url = 'https://sellerapi.kaufland.com/v2/';
+    protected string $url = 'https://sellerapi.kaufland.com/v2/';
 
     /**
      * Contains the HTTP client (Guzzle)
      * @var Client
      */
-    private $client;
+    private Client $client;
 
+    /**
+     * @throws KauflandNoCredentialsException
+     */
     public function __construct(string $client_key, string $secret_key, string $user_agent)
     {
         if (! $client_key || ! $secret_key) {
@@ -35,7 +39,7 @@ class Connection
         $this->user_agent = $user_agent;
     }
 
-    private function signRequest($method, $uri, $body, $timestamp, $secret_key)
+    private function signRequest($method, $uri, $body, $timestamp, $secret_key): string
     {
         $string = implode("\n", [
             $method,
@@ -47,7 +51,7 @@ class Connection
         return hash_hmac('sha256', $string, $secret_key);
     }
 
-    public function getClient()
+    public function getClient(): Client
     {
         if (! $this->client) {
             $this->client = new Client([
@@ -68,17 +72,17 @@ class Connection
      * @param string $method
      * @param string $uri
      * @param array $options
-     * @return array|string Array if the response was JSON, raw response body otherwise.
-     * @throws KauflandException
+     * @return array
+     * @throws KauflandException|GuzzleException
      */
-    public function request(string $method, string $uri, array $options = [])
+    public function request(string $method, string $uri, array $options = []): array
     {
         try {
             $query = $body = '';
             $timestamp = time();
 
             if (! empty($options['query'])) {
-                $query = '?' . http_build_query($options['query'], null, '&');
+                $query = '?' . http_build_query($options['query'], '', '&');
             }
 
             if (! empty($options['body'])) {

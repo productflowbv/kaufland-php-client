@@ -2,12 +2,17 @@
 
 namespace ProductFlow\KauflandPhpClient\Resources;
 
+use GuzzleHttp\Exception\GuzzleException;
+use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
+
 class Warehouse extends Model
 {
     /**
-     * @return mixed
+     * @return array
+     * @throws GuzzleException
+     * @throws KauflandException
      */
-    public function list()
+    public function list(): array
     {
         return $this->connection->request('GET', 'warehouses/seller', ['query' => $this->getQuery()]);
     }
@@ -15,6 +20,8 @@ class Warehouse extends Model
     /**
      * @param $identifier
      * @return array
+     * @throws GuzzleException
+     * @throws KauflandException
      */
     public function show($identifier): array
     {
@@ -25,6 +32,8 @@ class Warehouse extends Model
      * @param $identifier
      * @param array $attributes
      * @return array
+     * @throws GuzzleException
+     * @throws KauflandException
      */
     public function create($identifier, array $attributes): array
     {
@@ -35,6 +44,8 @@ class Warehouse extends Model
      * @param $identifier
      * @param array $attributes
      * @return array
+     * @throws GuzzleException
+     * @throws KauflandException
      */
     public function update($identifier, array $attributes): array
     {
@@ -44,6 +55,8 @@ class Warehouse extends Model
     /**
      * @param $identifier
      * @return array
+     * @throws GuzzleException
+     * @throws KauflandException
      */
     public function delete($identifier): array
     {

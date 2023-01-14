@@ -42,11 +42,11 @@ $order_lists = $kaufland->orderUnit()->list();
 | claims  | :heavy_exclamation_mark:  |
 | import-files  | :ballot_box_with_check:  |
 | items  | :ballot_box_with_check:  |
-| product-data  | :ballot_box_with_check:  |
+| product-data  | :white_check_mark:  |
 | product-data-status  | :ballot_box_with_check:  |
 | orders  | :white_check_mark:  |
 | order-invoices  | :ballot_box_with_check:  |
-| order-units  | :ballot_box_with_check:  |
+| order-units  | :white_check_mark:  |
 | shipments  | :ballot_box_with_check:  |
 | reports  | :ballot_box_with_check:  |
 | returns  | :ballot_box_with_check:  |
@@ -57,5 +57,5 @@ $order_lists = $kaufland->orderUnit()->list();
 | ticket-messages  | :ballot_box_with_check:  |
 | tickets  | :ballot_box_with_check:  |
 | warehouses  | :ballot_box_with_check:  |
-| units  | :ballot_box_with_check:  |
+| units  | :white_check_mark:  |
 
