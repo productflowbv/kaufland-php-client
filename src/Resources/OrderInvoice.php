@@ -22,12 +22,13 @@ class OrderInvoice extends Model
     }
 
     /**
+     * @param $identifier
      * @param array $attributes
      * @return array
      */
-    public function create(array $attributes): array
+    public function create($identifier, array $attributes): array
     {
-        return $this->connection->request('POST', "order-invoices", ['body' => $attributes]);
+        return $this->connection->request('POST', "order-invoices/{$identifier}", ['body' => $attributes]);
     }
 
     /**
