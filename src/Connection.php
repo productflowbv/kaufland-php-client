@@ -53,17 +53,15 @@ class Connection
 
     public function getClient(): Client
     {
-        if (! $this->client) {
-            $this->client = new Client([
-                'base_uri' => $this->url,
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                    'Shop-Client-Key' => $this->client_key,
-                    'User-Agent' => $this->user_agent
-                ]
-            ]);
-        }
+        $this->client = new Client([
+            'base_uri' => $this->url,
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Shop-Client-Key' => $this->client_key,
+                'User-Agent' => $this->user_agent
+            ]
+        ]);
 
         return $this->client;
     }
