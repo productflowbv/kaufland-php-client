@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class ImportFile extends Model
 {
@@ -29,6 +29,6 @@ class ImportFile extends Model
      */
     public function post(array $attributes): array
     {
-        return $this->connection->request('POST', "import-files/", ['body' => $attributes]);
+        return $this->connection->request('POST', "import-files", ['body' => $attributes]);
     }
 }

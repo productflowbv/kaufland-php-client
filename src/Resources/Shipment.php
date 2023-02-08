@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class Shipment extends Model
 {
@@ -10,6 +10,6 @@ class Shipment extends Model
      */
     public function create(array $attributes): array
     {
-        return $this->connection->request('POST', "shipments/", ['body' => $attributes]);
+        return $this->connection->request('POST', "shipments", ['body' => $attributes]);
     }
 }

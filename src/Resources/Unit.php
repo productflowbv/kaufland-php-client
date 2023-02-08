@@ -1,23 +1,24 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
+
+use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
 
 class Unit extends Model
 {
     /**
-     * @param string $id_offer
-     * @param string $id_item
-     * @param string $ean
-     * @return mixed
+     * @return array|string
+     * @throws KauflandException
      */
-    public function list(string $id_offer = '', string $id_item = '', string $ean = '')
+    public function list()
     {
-        return $this->connection->request('GET', 'units/seller/', ['query' => $this->getQuery() + array_filter(['id_offer' => $id_offer, 'id_item' => $id_item, 'ean' => $ean])]);
+        return $this->connection->request('GET', 'units', ['query' => $this->getQuery()]);
     }
 
     /**
      * @param $identifier
      * @return array
+     * @throws KauflandException
      */
     public function show($identifier): array
     {
@@ -25,31 +26,33 @@ class Unit extends Model
     }
 
     /**
-     * @param $identifier
      * @param array $attributes
      * @return array
+     * @throws KauflandException
      */
-    public function create($identifier, array $attributes): array
+    public function create(array $attributes): array
     {
-        return $this->connection->request('POST', "units/{$identifier}", ['body' => $attributes]);
+        return $this->connection->request('POST', 'units', ['body' => $attributes, 'query' => $this->getQuery()]);
     }
 
     /**
      * @param $identifier
      * @param array $attributes
      * @return array
+     * @throws KauflandException
      */
     public function update($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "units/{$identifier}", ['body' => $attributes]);
+        return $this->connection->request('PATCH', "units/{$identifier}", ['body' => $attributes, 'query' => $this->getQuery()]);
     }
 
     /**
      * @param $identifier
      * @return array
+     * @throws KauflandException
      */
     public function delete($identifier): array
     {
-        return $this->connection->request('DELETE', "units/{$identifier}");
+        return $this->connection->request('DELETE', "units/{$identifier}", ['query' => $this->getQuery()]);
     }
 }

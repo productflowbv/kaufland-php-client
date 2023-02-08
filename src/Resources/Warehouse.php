@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class Warehouse extends Model
 {
@@ -9,7 +9,7 @@ class Warehouse extends Model
      */
     public function list()
     {
-        return $this->connection->request('GET', 'warehouses/seller/', ['query' => $this->getQuery()]);
+        return $this->connection->request('GET', 'warehouses/seller', ['query' => $this->getQuery()]);
     }
 
     /**

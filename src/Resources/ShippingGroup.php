@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class ShippingGroup extends Model
 {
@@ -9,6 +9,6 @@ class ShippingGroup extends Model
      */
     public function list()
     {
-        return $this->connection->request('GET', 'shipping-groups/', ['query' => $this->getQuery()]);
+        return $this->connection->request('GET', 'shipping-groups', ['query' => $this->getQuery()]);
     }
 }

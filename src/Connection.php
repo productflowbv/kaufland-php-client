@@ -1,23 +1,22 @@
 <?php
 
-namespace RemCom\KauflandPhpClient;
+namespace ProductFlow\KauflandPhpClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
-use RemCom\KauflandPhpClient\Exceptions\KauflandException;
-use RemCom\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
+use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
+use ProductFlow\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
 
 class Connection
 {
-
     protected $client_key;
 
     protected $secret_key;
 
     protected $user_agent;
 
-    protected $url = 'https://www.kaufland.de/api/v1/';
+    protected $url = 'https://sellerapi.kaufland.com/v2/';
 
     /**
      * Contains the HTTP client (Guzzle)
@@ -27,7 +26,7 @@ class Connection
 
     public function __construct(string $client_key, string $secret_key, string $user_agent)
     {
-        if (!$client_key && !$secret_key) {
+        if (! $client_key || ! $secret_key) {
             throw new KauflandNoCredentialsException('No client_key and/or secret_key is set');
         }
 
@@ -36,7 +35,7 @@ class Connection
         $this->user_agent = $user_agent;
     }
 
-    private function signRequest($method, $uri, $body, $timestamp, $secretKey)
+    private function signRequest($method, $uri, $body, $timestamp, $secret_key)
     {
         $string = implode("\n", [
             $method,
@@ -45,25 +44,22 @@ class Connection
             $timestamp,
         ]);
 
-        return hash_hmac('sha256', $string, $secretKey);
+        return hash_hmac('sha256', $string, $secret_key);
     }
 
     public function getClient()
     {
-        if ($this->client) {
-            return $this->client;
+        if (! $this->client) {
+            $this->client = new Client([
+                'base_uri' => $this->url,
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                    'Shop-Client-Key' => $this->client_key,
+                    'User-Agent' => $this->user_agent
+                ]
+            ]);
         }
-
-        $clientConfig = [
-            'base_uri' => $this->url,
-            'headers' => [
-                'Accept' => 'application/json',
-                'Hm-Client' => $this->client_key,
-                'User-Agent' => $this->user_agent
-            ]
-        ];
-
-        $this->client = new Client($clientConfig);
 
         return $this->client;
     }
@@ -78,23 +74,27 @@ class Connection
     public function request(string $method, string $uri, array $options = [])
     {
         try {
-            $query = '';
-            if (isset($options['query'])) {
-                if (count($options['query'])) {
-                    $query = '?' . http_build_query($options['query'], null, '&');
-                }
-            }
-
-            $body = '';
-            if (isset($options['body'])) {
-                $body = json_encode($options['body']);
-            }
-
+            $query = $body = '';
             $timestamp = time();
+
+            if (! empty($options['query'])) {
+                $query = '?' . http_build_query($options['query'], null, '&');
+            }
+
+            if (! empty($options['body'])) {
+                $body = json_encode($options['body']);
+                $options['body'] = json_encode($options['body']);
+            }
+
             $header = [
-                'Hm-Client' => $this->client_key,
-                'Hm-Timestamp' => $timestamp,
-                'Hm-Signature' => $this->signRequest($method, $this->url . $uri . $query, $body, $timestamp, $this->secret_key)
+                'Shop-Timestamp' => $timestamp,
+                'Shop-Signature' => $this->signRequest(
+                    $method,
+                    $this->url . $uri . $query,
+                    $body,
+                    $timestamp,
+                    $this->secret_key
+                )
             ];
 
             $options['headers'] = $header;
@@ -107,7 +107,10 @@ class Connection
                 $this->parseResponse($e->getResponse());
             }
 
-            throw new KauflandException('Kaufland error: ' . $e->getResponse()->getReasonPhrase(), $e->getResponse()->getStatusCode());
+            throw new KauflandException(
+                'Kaufland error: ' . $e->getResponse()->getBody(),
+                $e->getResponse()->getStatusCode()
+            );
         }
     }
 
@@ -125,7 +128,11 @@ class Connection
             $response_body = $response->getBody()->getContents();
             $result_array = json_decode($response_body, true);
 
-            if (!is_array($result_array)) {
+            if ($response->getStatusCode() === 204) {
+                return [];
+            }
+
+            if (! is_array($result_array)) {
                 throw new KauflandException(sprintf('Kaufland error %s: %s', $response->getStatusCode(), $response_body), $response->getStatusCode());
             }
 

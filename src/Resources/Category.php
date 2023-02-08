@@ -1,15 +1,23 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class Category extends Model
 {
     /**
      * @return array
      */
+    public function tree()
+    {
+        return $this->connection->request('GET', 'categories/tree', ['query' => $this->getQuery()]);
+    }
+
+    /**
+     * @return array
+     */
     public function list()
     {
-        return $this->connection->request('GET', 'categories/', ['query' => $this->getQuery()]);
+        return $this->connection->request('GET', 'categories', ['query' => $this->getQuery()]);
     }
 
     /**
@@ -17,9 +25,9 @@ class Category extends Model
      * @param array $embedded
      * @return array
      */
-    public function show($identifier, $embedded = [])
+    public function show($identifier, array $embedded = null)
     {
-        return $this->connection->request('GET', "categories/{$identifier}", ['query' => array_filter(['embedded' => implode(',', $embedded)])]);
+        return $this->connection->request('GET', "categories/{$identifier}", ['query' => array_filter($this->getQuery() + ['embedded' => $embedded])]);
     }
 
     /**
@@ -28,6 +36,6 @@ class Category extends Model
      */
     public function decide(array $attributes): array
     {
-        return $this->connection->request('POST', "categories/decide/", ['body' => $attributes]);
+        return $this->connection->request('POST', "categories/decide", ['body' => $attributes]);
     }
 }

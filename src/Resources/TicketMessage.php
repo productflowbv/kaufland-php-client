@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class TicketMessage extends Model
 {
@@ -9,7 +9,7 @@ class TicketMessage extends Model
      */
     public function list()
     {
-        return $this->connection->request('GET', 'ticket-messages/seller/', ['query' => $this->getQuery()]);
+        return $this->connection->request('GET', 'ticket-messages/seller', ['query' => $this->getQuery()]);
     }
 
     /**
@@ -27,6 +27,6 @@ class TicketMessage extends Model
      */
     public function post(array $attributes): array
     {
-        return $this->connection->request('POST', "ticket-messages/", ['body' => $attributes]);
+        return $this->connection->request('POST', "ticket-messages", ['body' => $attributes]);
     }
 }

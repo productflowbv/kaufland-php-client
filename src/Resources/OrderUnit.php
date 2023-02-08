@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class OrderUnit extends Model
 {
@@ -10,7 +10,7 @@ class OrderUnit extends Model
      */
     public function list(array $status = [])
     {
-        return $this->connection->request('GET', 'order-units/seller/', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status)])]);
+        return $this->connection->request('GET', 'order-units', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status)])]);
     }
 
     /**
@@ -28,7 +28,7 @@ class OrderUnit extends Model
      */
     public function fulfil($identifier): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/fulfil/");
+        return $this->connection->request('PATCH', "order-units/{$identifier}/fulfil");
     }
 
     /**
@@ -38,7 +38,7 @@ class OrderUnit extends Model
      */
     public function cancel($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/cancel/", ['body' => $attributes]);
+        return $this->connection->request('PATCH', "order-units/{$identifier}/cancel", ['body' => $attributes]);
     }
 
     /**
@@ -48,7 +48,7 @@ class OrderUnit extends Model
      */
     public function send($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/send/", ['body' => $attributes]);
+        return $this->connection->request('PATCH', "order-units/{$identifier}/send", ['body' => $attributes]);
     }
 
     /**
@@ -58,6 +58,6 @@ class OrderUnit extends Model
      */
     public function refund($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/refund/", ['body' => $attributes]);
+        return $this->connection->request('PATCH', "order-units/{$identifier}/refund", ['body' => $attributes]);
     }
 }

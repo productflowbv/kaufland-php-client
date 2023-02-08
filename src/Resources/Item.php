@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class Item extends Model
 {
@@ -11,7 +11,7 @@ class Item extends Model
      */
     public function list(string $ean = '', string $q = '')
     {
-        return $this->connection->request('GET', 'items/', ['query' => $this->getQuery() + array_filter(['ean' => $ean, 'q' => $q])]);
+        return $this->connection->request('GET', 'items', ['query' => $this->getQuery() + array_filter(['ean' => $ean, 'q' => $q])]);
     }
 
     /**

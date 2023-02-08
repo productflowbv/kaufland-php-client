@@ -1,6 +1,6 @@
 <?php
 
-namespace RemCom\KauflandPhpClient\Resources;
+namespace ProductFlow\KauflandPhpClient\Resources;
 
 class ReturnUnit extends Model
 {
@@ -28,7 +28,7 @@ class ReturnUnit extends Model
      */
     public function accept($identifier): array
     {
-        return $this->connection->request('PATCH', "return-units/{$identifier}/accept/");
+        return $this->connection->request('PATCH', "return-units/{$identifier}/accept");
     }
 
     /**
@@ -38,7 +38,7 @@ class ReturnUnit extends Model
      */
     public function reject($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "return-units/{$identifier}/reject/", ['body' => $attributes]);
+        return $this->connection->request('PATCH', "return-units/{$identifier}/reject", ['body' => $attributes]);
     }
 
     /**
@@ -47,7 +47,7 @@ class ReturnUnit extends Model
      */
     public function repair($identifier): array
     {
-        return $this->connection->request('PATCH', "return-units/{$identifier}/repair/");
+        return $this->connection->request('PATCH', "return-units/{$identifier}/repair");
     }
 
     /**
@@ -57,6 +57,6 @@ class ReturnUnit extends Model
      */
     public function clarify($identifier, array $attributes): array
     {
-        return $this->connection->request('PATCH', "return-units/{$identifier}/clarify/", ['body' => $attributes]);
+        return $this->connection->request('PATCH', "return-units/{$identifier}/clarify", ['body' => $attributes]);
     }
 }
