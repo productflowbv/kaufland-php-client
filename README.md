@@ -38,12 +38,9 @@ $order_lists = $kaufland->orderUnit()->list();
 | ------------- | ------------- |
 | attributes  | :ballot_box_with_check:  |
 | categories  | :white_check_mark:  |
-| claim-messages  | :heavy_exclamation_mark: |
-| claims  | :heavy_exclamation_mark:  |
 | import-files  | :ballot_box_with_check:  |
 | items  | :ballot_box_with_check:  |
 | product-data  | :white_check_mark:  |
-| product-data-status  | :ballot_box_with_check:  |
 | orders  | :white_check_mark:  |
 | order-invoices  | :ballot_box_with_check:  |
 | order-units  | :white_check_mark:  |
