@@ -5,6 +5,8 @@ namespace ProductFlow\KauflandPhpClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use ProductFlow\KauflandPhpClient\Options\Locale;
+use ProductFlow\KauflandPhpClient\Options\Storefront;
 use Psr\Http\Message\ResponseInterface;
 use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
 use ProductFlow\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
@@ -19,6 +21,10 @@ class Connection
 
     protected string $url = 'https://sellerapi.kaufland.com/v2/';
 
+    protected Locale $locale;
+
+    protected Storefront $storefront;
+
     /**
      * Contains the HTTP client (Guzzle)
      * @var Client
@@ -28,15 +34,29 @@ class Connection
     /**
      * @throws KauflandNoCredentialsException
      */
-    public function __construct(string $client_key, string $secret_key, string $user_agent)
-    {
+    public function __construct(
+        string $client_key,
+        string $secret_key,
+        string $user_agent,
+        Locale $locale = null,
+        Storefront $storefront = null
+    ) {
         if (! $client_key || ! $secret_key) {
             throw new KauflandNoCredentialsException('No client_key and/or secret_key is set');
+        }
+
+        if (!isset($locale)) {
+            $locale = new Locale();
+        }
+        if (!isset($storefront)) {
+            $storefront = new Storefront();
         }
 
         $this->client_key = $client_key;
         $this->secret_key = $secret_key;
         $this->user_agent = $user_agent;
+        $this->locale = $locale;
+        $this->storefront = $storefront;
     }
 
     private function signRequest($method, $uri, $body, $timestamp, $secret_key): string
@@ -76,12 +96,20 @@ class Connection
     public function request(string $method, string $uri, array $options = []): array
     {
         try {
-            $query = $body = '';
+            $body = '';
             $timestamp = time();
 
-            if (! empty($options['query'])) {
-                $query = '?' . http_build_query($options['query'], '', '&');
-            }
+            $options['query'] = $options['query'] ?? [];
+
+            $options['query'] = array_merge(
+                [
+                    Storefront::getQueryParameterName() => (string)$this->storefront,
+                    Locale::getQueryParameterName() => (string)$this->locale,
+                ],
+                $options['query']
+            );
+
+            $query = '?' . http_build_query($options['query'], '', '&');
 
             if (! empty($options['body'])) {
                 $body = json_encode($options['body']);
@@ -96,7 +124,8 @@ class Connection
                     $body,
                     $timestamp,
                     $this->secret_key
-                )
+                ),
+                Locale::getQueryParameterName()    => (string)$this->locale
             ];
 
             $options['headers'] = $header;

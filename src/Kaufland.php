@@ -21,6 +21,8 @@ use ProductFlow\KauflandPhpClient\Resources\Ticket;
 use ProductFlow\KauflandPhpClient\Resources\TicketMessage;
 use ProductFlow\KauflandPhpClient\Resources\Unit;
 use ProductFlow\KauflandPhpClient\Resources\Warehouse;
+use ProductFlow\KauflandPhpClient\Options\Locale;
+use ProductFlow\KauflandPhpClient\Options\Storefront;
 
 /**
  * Class Kaufland
@@ -39,6 +41,10 @@ class Kaufland
     protected string $secret_key;
 
     protected string $user_agent = 'Kaufland-php-client/V1';
+
+    protected Locale $locale;
+
+    protected Storefront $storefront;
 
     /**
      * @var Connection
@@ -65,6 +71,20 @@ class Kaufland
         return $this;
     }
 
+    public function setLocale(Locale $locale): static
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function setStorefront(Storefront $storefront): static
+    {
+        $this->storefront = $storefront;
+
+        return $this;
+    }
+
     /**
      * @param string $user_agent
      */
@@ -82,7 +102,13 @@ class Kaufland
     private function getConnection(): Connection
     {
         if ($this->connection == null) {
-            $this->connection = new Connection($this->client_key, $this->secret_key, $this->user_agent);
+            $this->connection = new Connection(
+                $this->client_key,
+                $this->secret_key,
+                $this->user_agent,
+                $this->locale ?? new Locale(),
+                $this->storefront ?? new Storefront()
+            );
         }
         return $this->connection;
     }

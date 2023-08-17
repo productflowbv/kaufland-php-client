@@ -19,6 +19,11 @@ Prepare the client for connecting to Kaufland with your client key and secret ke
 $kaufland = new \ProductFlow\KauflandPhpClient\Kaufland();
 $kaufland->setClientKey($clientkey);
 $kaufland->setSecretKey($secretkey);
+
+// optional, if locale differs from "de_DE"
+$kaufland->setLocale((new Locale())->set(Locale::CS_CZ));
+// optional, if storefront differs from "de"
+$kaufland->setStorefront((new Storefront())->set(Storefront::CZ));
 ```
 
 ## Get all order-units
