@@ -3,6 +3,7 @@
 namespace ProductFlow\KauflandPhpClient;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
@@ -11,24 +12,26 @@ use ProductFlow\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
 
 class Connection
 {
+    public const URL = 'https://sellerapi.kaufland.com/v2/';
+
+    public const USERAGENT = 'Kaufland-php-client/V1';
+
     protected string $client_key;
 
     protected string $secret_key;
 
-    protected string $user_agent;
 
-    protected string $url = 'https://sellerapi.kaufland.com/v2/';
 
     /**
      * Contains the HTTP client (Guzzle)
-     * @var Client
+     * @var ClientInterface
      */
-    private Client $client;
+    private ClientInterface $client;
 
     /**
      * @throws KauflandNoCredentialsException
      */
-    public function __construct(string $client_key, string $secret_key, string $user_agent)
+    public function __construct(string $client_key, string $secret_key)
     {
         if (! $client_key || ! $secret_key) {
             throw new KauflandNoCredentialsException('No client_key and/or secret_key is set');
@@ -36,7 +39,6 @@ class Connection
 
         $this->client_key = $client_key;
         $this->secret_key = $secret_key;
-        $this->user_agent = $user_agent;
     }
 
     private function signRequest($method, $uri, $body, $timestamp, $secret_key): string
@@ -51,15 +53,26 @@ class Connection
         return hash_hmac('sha256', $string, $secret_key);
     }
 
-    public function getClient(): Client
+    /**
+     * @param ClientInterface $client
+     */
+    public function setClient(ClientInterface $client): void
     {
-        $this->client = new Client([
-            'base_uri' => $this->url,
+        $this->client = $client;
+    }
+
+    /**
+     * @return ClientInterface
+     */
+    public function getClient(): ClientInterface
+    {
+        $this->client = $this->client ?? new Client([
+            'base_uri' => self::URL,
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'Shop-Client-Key' => $this->client_key,
-                'User-Agent' => $this->user_agent
+                'User-Agent' => self::USERAGENT
             ]
         ]);
 
@@ -92,7 +105,7 @@ class Connection
                 'Shop-Timestamp' => $timestamp,
                 'Shop-Signature' => $this->signRequest(
                     $method,
-                    $this->url . $uri . $query,
+                    self::URL . $uri . $query,
                     $body,
                     $timestamp,
                     $this->secret_key

@@ -19,6 +19,9 @@ Prepare the client for connecting to Kaufland with your client key and secret ke
 $kaufland = new \ProductFlow\KauflandPhpClient\Kaufland();
 $kaufland->setClientKey($clientkey);
 $kaufland->setSecretKey($secretkey);
+
+// optional, change default client by configured one
+$kaufland->setClient(new Client(...))
 ```
 
 ## Get all order-units
