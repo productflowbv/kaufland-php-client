@@ -16,11 +16,14 @@ class Connection
 
     protected $user_agent;
 
+    /**
+     * @var string
+     */
     protected $url = 'https://sellerapi.kaufland.com/v2/';
 
     /**
      * Contains the HTTP client (Guzzle)
-     * @var Client
+     * @var Client|null
      */
     private $client;
 
@@ -78,7 +81,7 @@ class Connection
             $timestamp = time();
 
             if (! empty($options['query'])) {
-                $query = '?' . http_build_query($options['query'], null, '&');
+                $query = '?' . http_build_query($options['query'], '', '&');
             }
 
             if (! empty($options['body'])) {
