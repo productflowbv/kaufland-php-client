@@ -78,7 +78,7 @@ class Connection
             $timestamp = time();
 
             if (! empty($options['query'])) {
-                $query = '?' . http_build_query($options['query'], null, '&');
+                $query = '?' . http_build_query($options['query'], '', '&', PHP_QUERY_RFC3986);
             }
 
             if (! empty($options['body'])) {
