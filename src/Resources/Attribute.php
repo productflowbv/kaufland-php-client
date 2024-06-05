@@ -15,6 +15,11 @@ class Attribute extends Model
      */
     public function show($identifier)
     {
-        return $this->connection->request('GET', "attributes/{$identifier}");
+        return $this->connection->request('GET', "attributes/{$identifier}", ['query' => $this->getQuery()]);
+    }
+
+    public function showSharedSet($identifier)
+    {
+        return $this->connection->request('GET', "attributes/{$identifier}/shared-set", ['query' => $this->getQuery()]);
     }
 }
