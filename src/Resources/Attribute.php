@@ -22,4 +22,9 @@ class Attribute extends Model
     {
         return $this->connection->request('GET', "attributes/{$identifier}/shared-set", ['query' => $this->getQuery()]);
     }
+
+    public function showSharedSetAsCSV($identifier)
+    {
+        return $this->connection->request('GET', "attributes/{$identifier}/shared-set-values", ['query' => $this->getQuery()]);
+    }
 }
