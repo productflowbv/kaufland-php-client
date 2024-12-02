@@ -26,7 +26,7 @@ class Report extends Model
      */
     public function accountListing()
     {
-        return $this->connection->request('POST', "reports/account-listing");
+        return $this->connection->request('POST', "reports/account-listing", ['query' => $this->getQuery()]);
     }
 
     /**
