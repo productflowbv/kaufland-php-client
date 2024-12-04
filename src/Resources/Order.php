@@ -1,23 +1,45 @@
 <?php
 
 namespace ProductFlow\KauflandPhpClient\Resources;
+use \InvalidArgumentException;
 
 class Order extends Model
 {
     /**
-     * @return mixed
+     * Get a list of orders.
+     * @param array $queryParams
+     * @return array|string
      */
-    public function list()
+    public function list(array $queryParams = []): array
     {
-        return $this->connection->request('GET', 'orders/', ['query' => $this->getQuery()]);
+        $query = $this->getQuery() + array_filter($queryParams);
+
+        return $this->connection->request('GET', 'orders', [
+            'query' => $query,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Get an order by id_order.
+     * @param string $idOrder
+     * @param array|null $embedded
+     * @throws \InvalidArgumentException
+     * @return array|string
      */
-    public function show($identifier)
+    public function show(string $idOrder, array $embedded = null): array
     {
-        return $this->connection->request('GET', "orders/{$identifier}", ['query' => $this->getQuery()]);
+        if (empty($idOrder)) {
+            throw new InvalidArgumentException("Parameter 'id_order' is required.");
+        }
+
+        $query = $this->getQuery();
+        if (!empty($embedded)) {
+            $query['embedded'] = implode(',', $embedded);
+        }
+
+        return $this->connection->request('GET', "orders/{$idOrder}", [
+            'query' => $query,
+        ]);
     }
+
 }

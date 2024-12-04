@@ -1,111 +1,229 @@
 <?php
 
 namespace ProductFlow\KauflandPhpClient\Resources;
+use \InvalidArgumentException;
 
 class Report extends Model
 {
     /**
-     * @return mixed
+     * Get a list of all reports.
+     * @param array $queryParams
+     * @return array|string
      */
-    public function list()
+    public function list(array $queryParams = []): array
     {
-        return $this->connection->request('GET', 'reports/', ['query' => $this->getQuery()]);
+        $query = $this->getQuery() + array_filter($queryParams);
+
+        return $this->connection->request('GET', 'reports', [
+            'query' => $query,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Get meta-data for a single report by ID.
+     * @param string $idReport 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function show($identifier)
+    public function show(string $idReport): array
     {
-        return $this->connection->request('GET', "reports/{$identifier}");
+        if (empty($idReport)) {
+            throw new InvalidArgumentException("Parameter 'id_report' is required.");
+        }
+
+        return $this->connection->request('GET', "reports/{$idReport}");
     }
 
     /**
-     * @return array
+     * Queue an inventory report.
+     * @param string $storefront 
+     * @param string|null $version 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function accountListing()
+    public function accountListing(string $storefront, ?string $version = null): array
     {
-        return $this->connection->request('POST', "reports/account-listing", ['query' => $this->getQuery()]);
+        if (empty($storefront)) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        $query = ['storefront' => $storefront];
+
+        if (!empty($version)) {
+            $query['version'] = $version;
+        }
+
+        return $this->connection->request('POST', "reports/account-listing", [
+            'query' => $query,
+        ]);
     }
 
     /**
-     * @return array
+     * Queue a bookings report.
+     * @param string $storefront
+     * @param string $dateFrom 
+     * @param string $dateTo 
+     * @param string|null $version
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function accountListingWithShopPrice()
+    public function bookingsNew(string $storefront, string $dateFrom, string $dateTo, ?string $version = null): array
     {
-        return $this->connection->request('POST', "reports/account-listing-with-shop-price");
+        if (empty($storefront)) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        if (empty($dateFrom)) {
+            throw new InvalidArgumentException("Parameter 'date_from' is required.");
+        }
+
+        if (empty($dateTo)) {
+            throw new InvalidArgumentException("Parameter 'date_to' is required.");
+        }
+
+        $query = ['storefront' => $storefront];
+
+        if (!empty($version)) {
+            $query['version'] = $version;
+        }
+
+        $body = [
+            'date_from' => $dateFrom,
+            'date_to' => $dateTo,
+        ];
+
+        return $this->connection->request('POST', "reports/bookings-new", [
+            'query' => $query,
+            'body' => $body,
+        ]);
     }
 
     /**
-     * @return array
+     * Queue an EANs not found report.
+     * @param string $storefront 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function bookings()
+    public function eansNotFound(string $storefront): array
     {
-        return $this->connection->request('POST', "reports/bookings");
+        if (empty($storefront)) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        return $this->connection->request('POST', "reports/eans-not-found", [
+            'query' => ['storefront' => $storefront],
+        ]);
     }
 
     /**
-     * @return array
+     * Queue a product data changes report.
+     * @param string $storefront 
+     * @throws \InvalidArgumentException 
+     * @return array|string
      */
-    public function bookingsNew()
+    public function productDataChanges(string $storefront): array
     {
-        return $this->connection->request('POST', "reports/bookings-new");
+        if (empty($storefront)) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        return $this->connection->request('POST', "reports/product-data-changes", [
+            'query' => ['storefront' => $storefront],
+        ]);
     }
 
     /**
-     * @return array
+     * Queue a cancellations report.
+     * @param string $storefront 
+     * @param string|null $cancellationType 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function eansNotFound()
+    public function cancellations(string $storefront, ?string $cancellationType = null): array
     {
-        return $this->connection->request('POST', "reports/eans-not-found");
+        if (empty($storefront)) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        $query = ['storefront' => $storefront];
+
+        if (!empty($cancellationType)) {
+            $query['cancellation_type'] = $cancellationType;
+        }
+
+        return $this->connection->request('POST', "reports/cancellations", [
+            'query' => $query,
+        ]);
     }
 
     /**
-     * @return array
+     * Queue a competitora comparison report.
+     * @param string $storefront 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function productDataChanges()
+    public function competitorsComparer(string $storefront): array
     {
-        return $this->connection->request('POST', "reports/product-data-changes");
+        if (empty($storefront)) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        return $this->connection->request('POST', "reports/competitors-comparer", [
+            'query' => ['storefront' => $storefront],
+        ]);
     }
 
     /**
-     * @return array
+     * Queue a sales report.
+     * @param string $storefront 
+     * @param string $dateFrom
+     * @param string $dateTo 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function cancellations()
+    public function salesNew(string $storefront, string $dateFrom, string $dateTo): array
     {
-        return $this->connection->request('POST', "reports/cancellations");
+        if (empty($storefront)) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        if (empty($dateFrom)) {
+            throw new InvalidArgumentException("Parameter 'date_from' is required.");
+        }
+
+        if (empty($dateTo)) {
+            throw new InvalidArgumentException("Parameter 'date_to' is required.");
+        }
+
+        $body = [
+            'date_from' => $dateFrom,
+            'date_to' => $dateTo,
+        ];
+
+        return $this->connection->request('POST', "reports/sales-new", [
+            'query' => ['storefront' => $storefront],
+            'body' => $body,
+        ]);
     }
 
     /**
-     * @return array
+     * Queue a report for errors in a product data import file.
+     * @param string $idFileImport 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function competitorsComparer()
+    public function productDataImportFileErrors(string $idFileImport): array
     {
-        return $this->connection->request('POST', "reports/competitors-comparer");
-    }
+        if (empty($idFileImport)) {
+            throw new InvalidArgumentException("Parameter 'id_file_import' is required.");
+        }
 
-    /**
-     * @return array
-     */
-    public function sales()
-    {
-        return $this->connection->request('POST', "reports/sales");
-    }
+        $body = [
+            'id_file_import' => $idFileImport,
+        ];
 
-    /**
-     * @return array
-     */
-    public function salesNew()
-    {
-        return $this->connection->request('POST', "reports/sales-new");
-    }
-
-    /**
-     * @return array
-     */
-    public function productDataImportFileErrors()
-    {
-        return $this->connection->request('POST', "reports/product-data-import-file-errors");
+        return $this->connection->request('POST', "reports/product-data-import-file-errors", [
+            'body' => $body,
+        ]);
     }
 }

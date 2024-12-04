@@ -1,42 +1,82 @@
 <?php
 
 namespace ProductFlow\KauflandPhpClient\Resources;
+use \InvalidArgumentException;
 
 class OrderInvoice extends Model
 {
     /**
-     * @return mixed
+     * Get a list of order invoices.
+     * @param array $queryParams
+     * @return array|string
      */
-    public function list()
+    public function list(array $queryParams = []): array
     {
-        return $this->connection->request('GET', 'order-invoices/seller/', ['query' => $this->getQuery()]);
+        $query = $this->getQuery() + array_filter($queryParams);
+
+        return $this->connection->request('GET', 'order-invoices', [
+            'query' => $query,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Get an order invoice by id_order and id_invoice.
+     * @param string $idOrder 
+     * @param string $idInvoice
+     * @throws \InvalidArgumentException
+     * @return array|string
      */
-    public function show($identifier): array
+    public function show(string $idOrder, string $idInvoice): array
     {
-        return $this->connection->request('GET', "order-invoices/{$identifier}");
+        if (empty($idOrder)) {
+            throw new InvalidArgumentException("Parameter 'id_order' is required.");
+        }
+        if (empty($idInvoice)) {
+            throw new InvalidArgumentException("Parameter 'id_invoice' is required.");
+        }
+
+        return $this->connection->request('GET', "order-invoices/{$idOrder}/{$idInvoice}");
     }
 
     /**
-     * @param $identifier
+     * Upload an order invoice to a given order.
+     * @param string $idOrder
      * @param array $attributes
-     * @return array
+     * @throws \InvalidArgumentException
+     * @return array|string
      */
-    public function create($identifier, array $attributes): array
+    public function create(string $idOrder, array $attributes): array
     {
-        return $this->connection->request('POST', "order-invoices/{$identifier}", ['body' => $attributes]);
+        if (empty($idOrder)) {
+            throw new InvalidArgumentException("Parameter 'id_order' is required.");
+        }
+
+        if (empty($attributes['original_name']) || empty($attributes['mime_type']) || empty($attributes['content'])) {
+            throw new InvalidArgumentException("Parameters 'original_name', 'mime_type', and 'content' are required in the body.");
+        }
+
+        return $this->connection->request('POST', "order-invoices/{$idOrder}", [
+            'body' => $attributes,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Delete an order invoice by id_order and id_invoice.
+     *
+     * @param string $idOrder
+     * @param string $idInvoice
+     * @throws \InvalidArgumentException
+     * @return array|string
      */
-    public function delete($identifier): array
+    public function delete(string $idOrder, string $idInvoice): array
     {
-        return $this->connection->request('DELETE', "order-invoices/{$identifier}");
+        if (empty($idOrder)) {
+            throw new InvalidArgumentException("Parameter 'id_order' is required.");
+        }
+        if (empty($idInvoice)) {
+            throw new InvalidArgumentException("Parameter 'id_invoice' is required.");
+        }
+
+        return $this->connection->request('DELETE', "order-invoices/{$idOrder}/{$idInvoice}");
     }
 }

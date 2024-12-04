@@ -3,13 +3,17 @@
 namespace ProductFlow\KauflandPhpClient;
 
 use ProductFlow\KauflandPhpClient\Resources\Attribute;
+use ProductFlow\KauflandPhpClient\Resources\Buybox;
+use ProductFlow\KauflandPhpClient\Resources\Carrier;
 use ProductFlow\KauflandPhpClient\Resources\Category;
 use ProductFlow\KauflandPhpClient\Resources\ImportFile;
+use ProductFlow\KauflandPhpClient\Resources\Info;
 use ProductFlow\KauflandPhpClient\Resources\Item;
 use ProductFlow\KauflandPhpClient\Resources\Order;
 use ProductFlow\KauflandPhpClient\Resources\OrderInvoice;
 use ProductFlow\KauflandPhpClient\Resources\OrderUnit;
 use ProductFlow\KauflandPhpClient\Resources\ProductData;
+use ProductFlow\KauflandPhpClient\Resources\Product;
 use ProductFlow\KauflandPhpClient\Resources\Report;
 use ProductFlow\KauflandPhpClient\Resources\Returns;
 use ProductFlow\KauflandPhpClient\Resources\ReturnUnit;
@@ -97,6 +101,25 @@ class Kaufland
         return new Attribute($this->getConnection());
     }
 
+
+    /**
+     * @return Buybox
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function buybox()
+    {
+        return new Buybox($this->getConnection());
+    }
+
+    /**
+     * @return Carrier
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function carrier()
+    {
+        return new Carrier($this->getConnection());
+    }
+
     /**
      * @return Category
      * @throws Exceptions\KauflandNoCredentialsException
@@ -116,6 +139,15 @@ class Kaufland
     }
 
     /**
+     * @return Info
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function info()
+    {
+        return new Info($this->getConnection());
+    }
+
+    /**
      * @return Item
      * @throws Exceptions\KauflandNoCredentialsException
      */
@@ -131,6 +163,15 @@ class Kaufland
     public function productData()
     {
         return new ProductData($this->getConnection());
+    }
+
+    /**
+     * @return Product
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function product()
+    {
+        return new Product($this->getConnection());
     }
     
     /**

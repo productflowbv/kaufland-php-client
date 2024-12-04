@@ -1,63 +1,133 @@
 <?php
 
 namespace ProductFlow\KauflandPhpClient\Resources;
+use \InvalidArgumentException;
 
 class OrderUnit extends Model
 {
     /**
-     * @param array $status
-     * @return mixed
+     * Get a list of order units.
+     * @param array $queryParams
+     * @return array|string 
      */
-    public function list(array $status = [])
+    public function list(array $queryParams = []): array
     {
-        return $this->connection->request('GET', 'order-units', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status)])]);
+        $query = $this->getQuery() + array_filter($queryParams);
+
+        return $this->connection->request('GET', 'order-units', [
+            'query' => $query,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Get an order unit by id_order_unit.
+     * @param string $idOrderUnit
+     * @param array|null $embedded
+     * @throws \InvalidArgumentException
+     * @return array|string
      */
-    public function show($identifier): array
+    public function show(string $idOrderUnit, array $embedded = null): array
     {
-        return $this->connection->request('GET', "order-units/{$identifier}");
+        if (empty($idOrderUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_order_unit' is required.");
+        }
+
+        $query = $this->getQuery();
+        if (!empty($embedded)) {
+            $query['embedded'] = implode(',', $embedded);
+        }
+
+        return $this->connection->request('GET', "order-units/{$idOrderUnit}", [
+            'query' => $query,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Mark an order unit to be in fulfillment.
+     * @param string $idOrderUnit
+     * @throws \InvalidArgumentException 
+     * @return array|string
      */
-    public function fulfil($identifier): array
+    public function fulfil(string $idOrderUnit): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/fulfil");
+        if (empty($idOrderUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_order_unit' is required.");
+        }
+
+        return $this->connection->request('PATCH', "order-units/{$idOrderUnit}/fulfil");
     }
 
     /**
-     * @param $identifier
+     * Cancel an order unit.
+     * @param string $idOrderUnit
      * @param array $attributes
-     * @return array
+     * @throws \InvalidArgumentException
+     * @return array|string
      */
-    public function cancel($identifier, array $attributes): array
+    public function cancel(string $idOrderUnit, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/cancel", ['body' => $attributes]);
+        if (empty($idOrderUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_order_unit' is required.");
+        }
+
+        if (empty($attributes['reason'])) {
+            throw new InvalidArgumentException("Parameter 'reason' is required in the body.");
+        }
+
+        return $this->connection->request('PATCH', "order-units/{$idOrderUnit}/cancel", [
+            'body' => $attributes,
+        ]);
     }
 
     /**
-     * @param $identifier
+     * Mark an order unit as sent.
+     * @param string $idOrderUnit
      * @param array $attributes
-     * @return array
+     * @throws \InvalidArgumentException
+     * @return array|string
      */
-    public function send($identifier, array $attributes): array
+    public function send(string $idOrderUnit, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/send", ['body' => $attributes]);
+        if (empty($idOrderUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_order_unit' is required.");
+        }
+
+        if (empty($attributes['tracking_numbers']) || !is_array($attributes['tracking_numbers'])) {
+            throw new InvalidArgumentException("Parameter 'tracking_numbers' is required and must be an array.");
+        }
+
+        if (empty($attributes['carrier_code'])) {
+            throw new InvalidArgumentException("Parameter 'carrier_code' is required.");
+        }
+
+        return $this->connection->request('PATCH', "order-units/{$idOrderUnit}/send", [
+            'body' => $attributes,
+        ]);
     }
 
     /**
-     * @param $identifier
+     * Send a refund to a customer for a particular order unit.
+     * @param string $idOrderUnit
      * @param array $attributes
-     * @return array
+     * @throws \InvalidArgumentException
+     * @return array|string
      */
-    public function refund($identifier, array $attributes): array
+    public function refund(string $idOrderUnit, array $attributes): array
     {
-        return $this->connection->request('PATCH', "order-units/{$identifier}/refund", ['body' => $attributes]);
+        if (empty($idOrderUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_order_unit' is required.");
+        }
+
+        if (empty($attributes['amount']) || !is_numeric($attributes['amount']) || $attributes['amount'] <= 0) {
+            throw new InvalidArgumentException("Parameter 'amount' is required and must be a positive number in Eurocents.");
+        }
+
+        if (empty($attributes['reason'])) {
+            throw new InvalidArgumentException("Parameter 'reason' is required.");
+        }
+
+        return $this->connection->request('PATCH', "order-units/{$idOrderUnit}/refund", [
+            'body' => $attributes,
+        ]);
     }
 }

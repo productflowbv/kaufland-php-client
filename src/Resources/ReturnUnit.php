@@ -1,62 +1,130 @@
 <?php
 
 namespace ProductFlow\KauflandPhpClient\Resources;
+use \InvalidArgumentException;
 
 class ReturnUnit extends Model
 {
     /**
-     * @param array $status
-     * @return mixed
+     * Get a list of return units.
+     * @param array $queryParams 
+     * @throws \InvalidArgumentException 
+     * @return array|string
      */
-    public function list(array $status = [])
+    public function list(array $queryParams = []): array
     {
-        return $this->connection->request('GET', 'return-units/seller/', ['query' => $this->getQuery() + array_filter(['status' => implode(',', $status)])]);
+        if (isset($queryParams['status']) && is_array($queryParams['status'])) {
+            $queryParams['status'] = implode(',', $queryParams['status']);
+        }
+
+        return $this->connection->request('GET', "return-units", [
+            'query' => array_filter($queryParams),
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Get a return unit by its ID.
+     *
+     * @param string $idReturnUnit 
+     * @param array|null $embedded 
+     * @throws \InvalidArgumentException
+     * @return array|string 
      */
-    public function show($identifier): array
+    public function show(string $idReturnUnit, ?array $embedded = null): array
     {
-        return $this->connection->request('GET', "return-units/{$identifier}");
+        if (empty($idReturnUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_return_unit' is required.");
+        }
+
+        $query = [];
+        if (!empty($embedded)) {
+            $query['embedded'] = implode(',', $embedded);
+        }
+
+        return $this->connection->request('GET', "return-units/{$idReturnUnit}", [
+            'query' => $query,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Mark a return unit as return_accepted.
+     * @param string $idReturnUnit 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function accept($identifier): array
+    public function accept(string $idReturnUnit): array
     {
-        return $this->connection->request('PATCH', "return-units/{$identifier}/accept");
+        if (empty($idReturnUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_return_unit' is required.");
+        }
+
+        return $this->connection->request('PATCH', "return-units/{$idReturnUnit}/accept");
     }
 
     /**
-     * @param $identifier
-     * @param array $attributes
-     * @return array
+     * Reject a return unit.
+     * @param string $idReturnUnit 
+     * @param string $message 
+     * @throws \InvalidArgumentException 
+     * @return array|string
      */
-    public function reject($identifier, array $attributes): array
+    public function reject(string $idReturnUnit, string $message): array
     {
-        return $this->connection->request('PATCH', "return-units/{$identifier}/reject", ['body' => $attributes]);
+        if (empty($idReturnUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_return_unit' is required.");
+        }
+
+        if (empty($message)) {
+            throw new InvalidArgumentException("Parameter 'message' is required.");
+        }
+
+        $body = [
+            'message' => $message,
+        ];
+
+        return $this->connection->request('PATCH', "return-units/{$idReturnUnit}/reject", [
+            'body' => $body,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @return array
+     * Repair a return unit.
+     * @param string $idReturnUnit 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function repair($identifier): array
+    public function repair(string $idReturnUnit): array
     {
-        return $this->connection->request('PATCH', "return-units/{$identifier}/repair");
+        if (empty($idReturnUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_return_unit' is required.");
+        }
+
+        return $this->connection->request('PATCH', "return-units/{$idReturnUnit}/repair");
     }
 
     /**
-     * @param $identifier
-     * @param array $attributes
-     * @return array
+     * Clarify a raturn unit.
+     * @param string $idReturnUnit 
+     * @param string $message 
+     * @throws \InvalidArgumentException 
+     * @return array|string
      */
-    public function clarify($identifier, array $attributes): array
+    public function clarify(string $idReturnUnit, string $message): array
     {
-        return $this->connection->request('PATCH', "return-units/{$identifier}/clarify", ['body' => $attributes]);
+        if (empty($idReturnUnit)) {
+            throw new InvalidArgumentException("Parameter 'id_return_unit' is required.");
+        }
+
+        if (empty($message)) {
+            throw new InvalidArgumentException("Parameter 'message' is required.");
+        }
+
+        $body = [
+            'message' => $message,
+        ];
+
+        return $this->connection->request('PATCH', "return-units/{$idReturnUnit}/clarify", [
+            'body' => $body,
+        ]);
     }
 }
