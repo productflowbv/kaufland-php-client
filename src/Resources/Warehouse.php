@@ -1,44 +1,105 @@
 <?php
 
 namespace ProductFlow\KauflandPhpClient\Resources;
+use \InvalidArgumentException;
 
 class Warehouse extends Model
 {
     /**
-     * @return mixed
-     */
-    public function list()
-    {
-        return $this->connection->request('GET', 'warehouses/seller', ['query' => $this->getQuery()]);
-    }
-
-    /**
-     * @param $identifier
+     * Get a list of warehouses.
+     * @param array $queryParams
      * @return array
+     * @throws \InvalidArgumentException
      */
-    public function show($identifier): array
+    public function list(array $queryParams = []): array
     {
-        return $this->connection->request('GET', "warehouses/{$identifier}");
+        return $this->connection->request('GET', 'warehouses', [
+            'query' => array_filter($queryParams),
+        ]);
     }
 
     /**
-     * @param $identifier
+     * Get a warehouse by ID.
+     * @param string|int $idWarehouse 
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    public function show($idWarehouse): array
+    {
+        if (empty($idWarehouse)) {
+            throw new InvalidArgumentException("Parameter 'id_warehouse' is required.");
+        }
+
+        return $this->connection->request('GET', "warehouses/{$idWarehouse}");
+    }
+
+    /**
+     * Create a new warehouse.
+     * @param array $attributes 
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    public function create(array $attributes): array
+    {
+        if (empty($attributes['name'])) {
+            throw new InvalidArgumentException("Parameter 'name' is required.");
+        }
+
+        if (empty($attributes['address']) || !is_array($attributes['address'])) {
+            throw new InvalidArgumentException("Parameter 'address' is required and must be an array.");
+        }
+
+        $requiredAddressFields = ['street', 'city', 'house_number', 'postcode', 'country'];
+        foreach ($requiredAddressFields as $field) {
+            if (empty($attributes['address'][$field])) {
+                throw new InvalidArgumentException("Field 'address.{$field}' is required.");
+            }
+        }
+
+        if (!isset($attributes['is_default'])) {
+            throw new InvalidArgumentException("Parameter 'is_default' is required.");
+        }
+
+        return $this->connection->request('POST', "warehouses", [
+            'body' => $attributes,
+        ]);
+    }
+
+    /**
+     * Update a warehouse by ID.
+     * @param string|int $idWarehouse
      * @param array $attributes
      * @return array
+     * @throws \InvalidArgumentException
      */
-    public function create($identifier, array $attributes): array
+    public function update($idWarehouse, array $attributes): array
     {
-        return $this->connection->request('POST', "warehouses/{$identifier}", ['body' => $attributes]);
-    }
+        if (empty($idWarehouse)) {
+            throw new InvalidArgumentException("Parameter 'id_warehouse' is required.");
+        }
 
-    /**
-     * @param $identifier
-     * @param array $attributes
-     * @return array
-     */
-    public function update($identifier, array $attributes): array
-    {
-        return $this->connection->request('PATCH', "warehouses/{$identifier}", ['body' => $attributes]);
+        if (empty($attributes['name'])) {
+            throw new InvalidArgumentException("Parameter 'name' is required.");
+        }
+
+        if (empty($attributes['address']) || !is_array($attributes['address'])) {
+            throw new InvalidArgumentException("Parameter 'address' is required and must be an array.");
+        }
+
+        $requiredAddressFields = ['street', 'city', 'house_number', 'postcode', 'country'];
+        foreach ($requiredAddressFields as $field) {
+            if (empty($attributes['address'][$field])) {
+                throw new InvalidArgumentException("Field 'address.{$field}' is required.");
+            }
+        }
+
+        if (!isset($attributes['is_default'])) {
+            throw new InvalidArgumentException("Parameter 'is_default' is required.");
+        }
+
+        return $this->connection->request('PUT', "warehouses/{$idWarehouse}", [
+            'body' => $attributes,
+        ]);
     }
 
     /**

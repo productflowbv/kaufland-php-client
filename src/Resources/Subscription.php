@@ -1,52 +1,112 @@
 <?php
 
 namespace ProductFlow\KauflandPhpClient\Resources;
+use \InvalidArgumentException;
 
 class Subscription extends Model
 {
     /**
-     * @return mixed
+     * Get a list of your push notification subscriptions.
+     * @param array $queryParams 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function list()
+    public function list(array $queryParams = []): array
     {
-        return $this->connection->request('GET', 'subscriptions/seller/', ['query' => $this->getQuery()]);
+        return $this->connection->request('GET', 'subscriptions', [
+            'query' => array_filter($this->getQuery() + $queryParams),
+        ]);
     }
 
     /**
-     * @param $identifier
+     * Get a push notification subscription by ID.
+     * @param string $idSubscription 
+     * @throws \InvalidArgumentException
      * @return array
      */
-    public function show($identifier): array
+    public function show(string $idSubscription): array
     {
-        return $this->connection->request('GET', "subscriptions/{$identifier}");
+        if (empty($idSubscription)) {
+            throw new InvalidArgumentException("Parameter 'id_subscription' is required.");
+        }
+
+        return $this->connection->request('GET', "subscriptions/{$idSubscription}");
     }
 
     /**
-     * @param $identifier
-     * @param array $attributes
-     * @return array
+     * Subscribe for an event.
+     * @param string $storefront
+     * @param array $attributes 
+     * @throws \InvalidArgumentException 
+     * @return array|string 
      */
-    public function create($identifier, array $attributes): array
+    public function create(string $storefront, array $attributes): array
     {
-        return $this->connection->request('POST', "subscriptions/{$identifier}", ['body' => $attributes]);
+        if (empty($storefront)) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        if (empty($attributes['callback_url'])) {
+            throw new InvalidArgumentException("Parameter 'callback_url' is required.");
+        }
+
+        if (empty($attributes['event_name'])) {
+            throw new InvalidArgumentException("Parameter 'event_name' is required.");
+        }
+
+        if (empty($attributes['fallback_email'])) {
+            throw new InvalidArgumentException("Parameter 'fallback_email' is required.");
+        }
+
+        return $this->connection->request('POST', "subscriptions", [
+            'query' => ['storefront' => $storefront],
+            'body' => $attributes,
+        ]);
     }
 
     /**
-     * @param $identifier
-     * @param array $attributes
+     * Update a subscription by ID.
+     * @param string $idSubscription 
+     * @param array $attributes 
+     * @throws \InvalidArgumentException
      * @return array
      */
-    public function update($identifier, array $attributes): array
+    public function update(string $idSubscription, array $attributes): array
     {
-        return $this->connection->request('PATCH', "subscriptions/{$identifier}", ['body' => $attributes]);
+        if (empty($idSubscription)) {
+            throw new InvalidArgumentException("Parameter 'id_subscription' is required.");
+        }
+
+        if (empty($attributes['callback_url'])) {
+            throw new InvalidArgumentException("Parameter 'callback_url' is required.");
+        }
+        if (empty($attributes['event_name'])) {
+            throw new InvalidArgumentException("Parameter 'event_name' is required.");
+        }
+        if (!isset($attributes['is_active'])) {
+            throw new InvalidArgumentException("Parameter 'is_active' is required.");
+        }
+        if (empty($attributes['storefront'])) {
+            throw new InvalidArgumentException("Parameter 'storefront' is required.");
+        }
+
+        return $this->connection->request('PATCH', "subscriptions/{$idSubscription}", [
+            'body' => $attributes,
+        ]);
     }
 
     /**
-     * @param $identifier
+     * Unsubscribe from an event by ID.
+     * @param string $idSubscription 
+     * @throws \InvalidArgumentException
      * @return array
      */
-    public function delete($identifier): array
+    public function delete(string $idSubscription): array
     {
-        return $this->connection->request('DELETE', "subscriptions/{$identifier}");
+        if (empty($idSubscription)) {
+            throw new InvalidArgumentException("Parameter 'id_subscription' is required.");
+        }
+
+        return $this->connection->request('DELETE', "subscriptions/{$idSubscription}");
     }
 }

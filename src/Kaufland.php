@@ -19,6 +19,7 @@ use ProductFlow\KauflandPhpClient\Resources\Returns;
 use ProductFlow\KauflandPhpClient\Resources\ReturnUnit;
 use ProductFlow\KauflandPhpClient\Resources\Shipment;
 use ProductFlow\KauflandPhpClient\Resources\ShippingGroup;
+use ProductFlow\KauflandPhpClient\Resources\ShippingLabel;
 use ProductFlow\KauflandPhpClient\Resources\Status;
 use ProductFlow\KauflandPhpClient\Resources\Subscription;
 use ProductFlow\KauflandPhpClient\Resources\Ticket;
@@ -253,6 +254,15 @@ class Kaufland
     public function shippingGroup()
     {
         return new ShippingGroup($this->getConnection());
+    }
+
+    /**
+     * @return ShippingLabel
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function shippingLabel()
+    {
+        return new ShippingLabel($this->getConnection());
     }
 
     /**

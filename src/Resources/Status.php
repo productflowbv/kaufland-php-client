@@ -5,9 +5,10 @@ namespace ProductFlow\KauflandPhpClient\Resources;
 class Status extends Model
 {
     /**
-     * @return array
+     * Ping the Marketplace Seller API by Kaufland.
+     * @return array|string 
      */
-    public function ping()
+    public function ping(): array
     {
         return $this->connection->request('GET', "status/ping");
     }
