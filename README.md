@@ -34,28 +34,29 @@ $order_lists = $kaufland->orderUnit()->list();
 :x: = Not yet developed<br />
 :heavy_exclamation_mark: = deprecated/not supported <br />
 
-| Endpoint  | Status |
-| ------------- | ------------- |
-| attributes  | :ballot_box_with_check:  |
-| categories  | :white_check_mark:  |
-| claim-messages  | :heavy_exclamation_mark: |
-| claims  | :heavy_exclamation_mark:  |
-| import-files  | :ballot_box_with_check:  |
-| items  | :ballot_box_with_check:  |
-| product-data  | :ballot_box_with_check:  |
-| product-data-status  | :ballot_box_with_check:  |
-| orders  | :white_check_mark:  |
-| order-invoices  | :ballot_box_with_check:  |
-| order-units  | :ballot_box_with_check:  |
-| shipments  | :ballot_box_with_check:  |
-| reports  | :ballot_box_with_check:  |
-| returns  | :ballot_box_with_check:  |
-| return-units  | :ballot_box_with_check:  |
-| shipping-groups  |  :ballot_box_with_check:  |
-| status  | :white_check_mark:  |
-| subscriptions  | :ballot_box_with_check:  |
-| ticket-messages  | :ballot_box_with_check:  |
-| tickets  | :ballot_box_with_check:  |
-| warehouses  | :ballot_box_with_check:  |
-| units  | :ballot_box_with_check:  |
+| Endpoint            | Status |
+|---------------------| ------------- |
+| attributes          | :ballot_box_with_check:  |
+| categories          | :white_check_mark:  |
+| claim-messages      | :heavy_exclamation_mark: |
+| claims              | :heavy_exclamation_mark:  |
+| import-files        | :ballot_box_with_check:  |
+| items               | :ballot_box_with_check:  |
+| product-data        | :ballot_box_with_check:  |
+| product-data-status | :ballot_box_with_check:  |
+| orders              | :white_check_mark:  |
+| order-invoices      | :ballot_box_with_check:  |
+| order-units         | :ballot_box_with_check:  |
+| shipments           | :ballot_box_with_check:  |
+| reports             | :ballot_box_with_check:  |
+| returns             | :ballot_box_with_check:  |
+| return-units        | :ballot_box_with_check:  |
+| shipping-groups     |  :ballot_box_with_check:  |
+| status              | :white_check_mark:  |
+| subscriptions       | :ballot_box_with_check:  |
+| ticket-messages     | :ballot_box_with_check:  |
+| tickets             | :ballot_box_with_check:  |
+| warehouses          | :ballot_box_with_check:  |
+| units               | :ballot_box_with_check:  |
+| info                | :ballot_box_with_check:  |
 

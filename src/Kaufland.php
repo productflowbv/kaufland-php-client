@@ -5,6 +5,7 @@ namespace ProductFlow\KauflandPhpClient;
 use ProductFlow\KauflandPhpClient\Resources\Attribute;
 use ProductFlow\KauflandPhpClient\Resources\Category;
 use ProductFlow\KauflandPhpClient\Resources\ImportFile;
+use ProductFlow\KauflandPhpClient\Resources\Info;
 use ProductFlow\KauflandPhpClient\Resources\Item;
 use ProductFlow\KauflandPhpClient\Resources\Order;
 use ProductFlow\KauflandPhpClient\Resources\OrderInvoice;
@@ -257,5 +258,14 @@ class Kaufland
     public function ticket()
     {
         return new Ticket($this->getConnection());
+    }
+
+    /**
+     * @return Info
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function info(): Info
+    {
+        return new Info($this->getConnection());
     }
 }
