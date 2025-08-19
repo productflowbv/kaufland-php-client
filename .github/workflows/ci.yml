@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.0, 8.1, 8.2]
+        php: [8.2, 8.3, 8.4]
 
     name: PHP ${{ matrix.php }} tests
 
@@ -32,5 +32,7 @@ jobs:
 
       - name: Run phplint - Syntax check
         run: ./vendor/bin/phplint -c  ci/phplint.yml src
-      - name: Run phpcs - PSR2 check
-        run: ./vendor/bin/phpcs --standard=ci/phpbcs.xml src
+      - name: Run php-cs-fixer
+        run: ./vendor/bin/php-cs-fixer fix src --config=ci/php-cs-fixer.php --dry-run --format=checkstyle | cs2pr
+      - name: Run phpstan - static code analysis
+        run: ./vendor/bin/phpstan analyse -c ci/phpstan.neon --memory-limit=256M

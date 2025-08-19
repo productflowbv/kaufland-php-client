@@ -26,7 +26,7 @@ class Report extends Model
      */
     public function accountListing()
     {
-        return $this->connection->request('POST', "reports/account-listing", ['query' => $this->getQuery()]);
+        return $this->connection->request('POST', 'reports/account-listing', ['query' => $this->getQuery()]);
     }
 
     /**
@@ -34,7 +34,7 @@ class Report extends Model
      */
     public function accountListingWithShopPrice()
     {
-        return $this->connection->request('POST', "reports/account-listing-with-shop-price");
+        return $this->connection->request('POST', 'reports/account-listing-with-shop-price');
     }
 
     /**
@@ -42,7 +42,7 @@ class Report extends Model
      */
     public function bookings()
     {
-        return $this->connection->request('POST', "reports/bookings");
+        return $this->connection->request('POST', 'reports/bookings');
     }
 
     /**
@@ -50,7 +50,7 @@ class Report extends Model
      */
     public function bookingsNew()
     {
-        return $this->connection->request('POST', "reports/bookings-new");
+        return $this->connection->request('POST', 'reports/bookings-new');
     }
 
     /**
@@ -58,7 +58,7 @@ class Report extends Model
      */
     public function eansNotFound()
     {
-        return $this->connection->request('POST', "reports/eans-not-found");
+        return $this->connection->request('POST', 'reports/eans-not-found');
     }
 
     /**
@@ -66,7 +66,7 @@ class Report extends Model
      */
     public function productDataChanges()
     {
-        return $this->connection->request('POST', "reports/product-data-changes");
+        return $this->connection->request('POST', 'reports/product-data-changes');
     }
 
     /**
@@ -74,7 +74,7 @@ class Report extends Model
      */
     public function cancellations()
     {
-        return $this->connection->request('POST', "reports/cancellations");
+        return $this->connection->request('POST', 'reports/cancellations');
     }
 
     /**
@@ -82,7 +82,7 @@ class Report extends Model
      */
     public function competitorsComparer()
     {
-        return $this->connection->request('POST', "reports/competitors-comparer");
+        return $this->connection->request('POST', 'reports/competitors-comparer');
     }
 
     /**
@@ -90,7 +90,7 @@ class Report extends Model
      */
     public function sales()
     {
-        return $this->connection->request('POST', "reports/sales");
+        return $this->connection->request('POST', 'reports/sales');
     }
 
     /**
@@ -98,7 +98,7 @@ class Report extends Model
      */
     public function salesNew()
     {
-        return $this->connection->request('POST', "reports/sales-new");
+        return $this->connection->request('POST', 'reports/sales-new');
     }
 
     /**
@@ -106,6 +106,6 @@ class Report extends Model
      */
     public function productDataImportFileErrors()
     {
-        return $this->connection->request('POST', "reports/product-data-import-file-errors");
+        return $this->connection->request('POST', 'reports/product-data-import-file-errors');
     }
 }

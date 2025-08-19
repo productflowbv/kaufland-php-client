@@ -27,6 +27,6 @@ class TicketMessage extends Model
      */
     public function post(array $attributes): array
     {
-        return $this->connection->request('POST', "ticket-messages", ['body' => $attributes]);
+        return $this->connection->request('POST', 'ticket-messages', ['body' => $attributes]);
     }
 }

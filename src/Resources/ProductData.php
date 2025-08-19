@@ -20,7 +20,7 @@ class ProductData extends Model
      */
     public function create(array $attributes): array
     {
-        return $this->connection->request('PUT', "product-data", ['body' => $attributes, 'query' => $this->getQuery()]);
+        return $this->connection->request('PUT', 'product-data', ['body' => $attributes, 'query' => $this->getQuery()]);
     }
 
     /**

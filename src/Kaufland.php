@@ -5,6 +5,7 @@ namespace ProductFlow\KauflandPhpClient;
 use ProductFlow\KauflandPhpClient\Resources\Attribute;
 use ProductFlow\KauflandPhpClient\Resources\Category;
 use ProductFlow\KauflandPhpClient\Resources\ImportFile;
+use ProductFlow\KauflandPhpClient\Resources\Info;
 use ProductFlow\KauflandPhpClient\Resources\Item;
 use ProductFlow\KauflandPhpClient\Resources\Order;
 use ProductFlow\KauflandPhpClient\Resources\OrderInvoice;
@@ -24,11 +25,9 @@ use ProductFlow\KauflandPhpClient\Resources\Warehouse;
 
 /**
  * Class Kaufland
- * @package ProductFlow\KauflandPhpClient
  */
 class Kaufland
 {
-
     /**
      * @var string
      */
@@ -85,6 +84,7 @@ class Kaufland
         if ($this->connection == null) {
             $this->connection = new Connection($this->client_key, $this->secret_key, $this->user_agent);
         }
+
         return $this->connection;
     }
 
@@ -132,7 +132,7 @@ class Kaufland
     {
         return new ProductData($this->getConnection());
     }
-    
+
     /**
      * @return Order
      * @throws Exceptions\KauflandNoCredentialsException
@@ -257,5 +257,14 @@ class Kaufland
     public function ticket()
     {
         return new Ticket($this->getConnection());
+    }
+
+    /**
+     * @return Info
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function info(): Info
+    {
+        return new Info($this->getConnection());
     }
 }
