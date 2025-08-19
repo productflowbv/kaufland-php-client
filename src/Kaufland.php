@@ -25,11 +25,9 @@ use ProductFlow\KauflandPhpClient\Resources\Warehouse;
 
 /**
  * Class Kaufland
- * @package ProductFlow\KauflandPhpClient
  */
 class Kaufland
 {
-
     /**
      * @var string
      */
@@ -86,6 +84,7 @@ class Kaufland
         if ($this->connection == null) {
             $this->connection = new Connection($this->client_key, $this->secret_key, $this->user_agent);
         }
+
         return $this->connection;
     }
 
@@ -133,7 +132,7 @@ class Kaufland
     {
         return new ProductData($this->getConnection());
     }
-    
+
     /**
      * @return Order
      * @throws Exceptions\KauflandNoCredentialsException

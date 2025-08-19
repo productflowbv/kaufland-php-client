@@ -13,10 +13,10 @@ class Ticket extends Model
     public function list(array $status = [], array $open_reason = [], array $topic = [])
     {
         return $this->connection->request('GET', 'tickets/seller/', ['query' => $this->getQuery() + array_filter([
-                'status' => implode(',', $status),
-                'open_reason' => implode(',', $open_reason),
-                'topic' => implode(',', $topic)
-            ])]);
+            'status' => implode(',', $status),
+            'open_reason' => implode(',', $open_reason),
+            'topic' => implode(',', $topic),
+        ])]);
     }
 
     /**
@@ -34,7 +34,7 @@ class Ticket extends Model
      */
     public function create(array $attributes): array
     {
-        return $this->connection->request('POST', "tickets/", ['body' => $attributes]);
+        return $this->connection->request('POST', 'tickets/', ['body' => $attributes]);
     }
 
     /**

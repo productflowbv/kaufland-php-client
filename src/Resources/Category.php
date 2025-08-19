@@ -22,10 +22,10 @@ class Category extends Model
 
     /**
      * @param $identifier
-     * @param array $embedded
+     * @param ?array $embedded
      * @return array
      */
-    public function show($identifier, array $embedded = null)
+    public function show($identifier, ?array $embedded = null)
     {
         return $this->connection->request('GET', "categories/{$identifier}", ['query' => array_filter($this->getQuery() + ['embedded' => $embedded])]);
     }
@@ -36,6 +36,6 @@ class Category extends Model
      */
     public function decide(array $attributes): array
     {
-        return $this->connection->request('POST', "categories/decide", ['body' => $attributes]);
+        return $this->connection->request('POST', 'categories/decide', ['body' => $attributes]);
     }
 }

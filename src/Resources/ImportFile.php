@@ -29,6 +29,6 @@ class ImportFile extends Model
      */
     public function post(array $attributes): array
     {
-        return $this->connection->request('POST', "import-files", ['body' => $attributes]);
+        return $this->connection->request('POST', 'import-files', ['body' => $attributes]);
     }
 }

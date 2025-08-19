@@ -29,6 +29,7 @@ class Model
     public function setLimit(int $limit): static
     {
         $this->limit = $limit;
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ class Model
     public function setOffset(int $offset): static
     {
         $this->offset = $offset;
+
         return $this;
     }
 
@@ -51,6 +53,7 @@ class Model
         }
 
         $this->filters[$column][$operation] = $value;
+
         return $this;
     }
 
@@ -59,7 +62,7 @@ class Model
         return array_filter(array_merge(
             $this->query,
             $this->filters,
-            [ 'limit' => $this->getLimit(), 'offset' => $this->getOffset() ]
+            ['limit' => $this->getLimit(), 'offset' => $this->getOffset()]
         ));
     }
 

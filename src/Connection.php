@@ -4,23 +4,35 @@ namespace ProductFlow\KauflandPhpClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Psr\Http\Message\ResponseInterface;
 use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
 use ProductFlow\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
+use Psr\Http\Message\ResponseInterface;
 
 class Connection
 {
+    /**
+     * @var string
+     */
     protected $client_key;
 
+    /**
+     * @var string
+     */
     protected $secret_key;
 
+    /**
+     * @var string
+     */
     protected $user_agent;
 
+    /**
+     * @var string
+     */
     protected $url = 'https://sellerapi.kaufland.com/v2/';
 
     /**
      * Contains the HTTP client (Guzzle)
-     * @var Client
+     * @var ?Client
      */
     private $client;
 
@@ -56,8 +68,8 @@ class Connection
                     'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
                     'Shop-Client-Key' => $this->client_key,
-                    'User-Agent' => $this->user_agent
-                ]
+                    'User-Agent' => $this->user_agent,
+                ],
             ]);
         }
 
@@ -78,7 +90,7 @@ class Connection
             $timestamp = time();
 
             if (! empty($options['query'])) {
-                $query = '?' . http_build_query($options['query'], null, '&');
+                $query = '?'.http_build_query($options['query'], '', '&');
             }
 
             if (! empty($options['body'])) {
@@ -90,11 +102,11 @@ class Connection
                 'Shop-Timestamp' => $timestamp,
                 'Shop-Signature' => $this->signRequest(
                     $method,
-                    $this->url . $uri . $query,
+                    $this->url.$uri.$query,
                     $body,
                     $timestamp,
                     $this->secret_key
-                )
+                ),
             ];
 
             $options['headers'] = $header;
@@ -108,7 +120,7 @@ class Connection
             }
 
             throw new KauflandException(
-                'Kaufland error: ' . $e->getResponse()->getBody(),
+                'Kaufland error: '.$e->getResponse()->getBody(),
                 $e->getResponse()->getStatusCode()
             );
         }
@@ -138,7 +150,7 @@ class Connection
 
             return $result_array;
         } catch (\RuntimeException $e) {
-            throw new KauflandException('Kaufland error: ' . $e->getMessage());
+            throw new KauflandException('Kaufland error: '.$e->getMessage());
         }
     }
 }
