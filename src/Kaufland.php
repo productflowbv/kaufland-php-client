@@ -21,6 +21,7 @@ use ProductFlow\KauflandPhpClient\Resources\Subscription;
 use ProductFlow\KauflandPhpClient\Resources\Ticket;
 use ProductFlow\KauflandPhpClient\Resources\TicketMessage;
 use ProductFlow\KauflandPhpClient\Resources\Unit;
+use ProductFlow\KauflandPhpClient\Resources\VariantSuggestion;
 use ProductFlow\KauflandPhpClient\Resources\Warehouse;
 
 /**
@@ -131,6 +132,15 @@ class Kaufland
     public function productData()
     {
         return new ProductData($this->getConnection());
+    }
+
+    /**
+     * @return VariantSuggestion
+     * @throws Exceptions\KauflandNoCredentialsException
+     */
+    public function variantSuggestion()
+    {
+        return new VariantSuggestion($this->getConnection());
     }
 
     /**
