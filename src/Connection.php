@@ -3,8 +3,7 @@
 namespace ProductFlow\KauflandPhpClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use ProductFlow\KauflandPhpClient\Exceptions\KauflandException;
 use ProductFlow\KauflandPhpClient\Exceptions\KauflandNoCredentialsException;
 use Psr\Http\Message\ResponseInterface;
