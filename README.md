@@ -21,6 +21,16 @@ $kaufland->setClientKey($clientkey);
 $kaufland->setSecretKey($secretkey);
 ```
 
+### Technology partners
+If you are a registered Kaufland technology partner, also set your partner credentials (generated in the Partner Area API settings)
+and the name of your software solution as User-Agent. Every request will then include the `Shop-Partner-Client-Key` and a
+freshly generated `Shop-Partner-Signature` header.
+```php
+$kaufland->setUserAgent('MySoftwareSolution/1.0');
+$kaufland->setPartnerClientKey($partnerClientKey); // 32 characters
+$kaufland->setPartnerSecretKey($partnerSecretKey); // 64 characters
+```
+
 ## Get all order-units
 Returns an array of order-units
 ```php
