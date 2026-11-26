@@ -13,12 +13,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.2, 8.3, 8.4]
+        php: [8.3, 8.4, 8.5, 8.6]
 
     name: PHP ${{ matrix.php }} tests
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -33,6 +33,9 @@ jobs:
       - name: Run phplint - Syntax check
         run: ./vendor/bin/phplint -c  ci/phplint.yml src
       - name: Run php-cs-fixer
+        # Code style is version-independent; run once on the minimum supported PHP
+        # (php-cs-fixer does not support parsing newer PHP versions like 8.6 yet).
+        if: matrix.php == '8.3'
         run: ./vendor/bin/php-cs-fixer fix src --config=ci/php-cs-fixer.php --dry-run --format=checkstyle | cs2pr
       - name: Run phpstan - static code analysis
         run: ./vendor/bin/phpstan analyse -c ci/phpstan.neon --memory-limit=256M

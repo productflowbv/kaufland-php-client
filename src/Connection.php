@@ -26,6 +26,18 @@ class Connection
     protected $user_agent;
 
     /**
+     * Technology partner Client Key (optional)
+     * @var ?string
+     */
+    protected $partner_client_key;
+
+    /**
+     * Technology partner Secret Key (optional)
+     * @var ?string
+     */
+    protected $partner_secret_key;
+
+    /**
      * @var string
      */
     protected $url = 'https://sellerapi.kaufland.com/v2/';
@@ -36,15 +48,31 @@ class Connection
      */
     private $client;
 
-    public function __construct(string $client_key, string $secret_key, string $user_agent)
-    {
+    public function __construct(
+        string $client_key,
+        string $secret_key,
+        string $user_agent,
+        ?string $partner_client_key = null,
+        ?string $partner_secret_key = null
+    ) {
         if (! $client_key || ! $secret_key) {
             throw new KauflandNoCredentialsException('No client_key and/or secret_key is set');
+        }
+
+        if ((bool) $partner_client_key !== (bool) $partner_secret_key) {
+            throw new KauflandNoCredentialsException('Both partner_client_key and partner_secret_key must be set when using partner credentials');
         }
 
         $this->client_key = $client_key;
         $this->secret_key = $secret_key;
         $this->user_agent = $user_agent;
+        $this->partner_client_key = $partner_client_key ?: null;
+        $this->partner_secret_key = $partner_secret_key ?: null;
+    }
+
+    public function hasPartnerCredentials(): bool
+    {
+        return $this->partner_client_key !== null && $this->partner_secret_key !== null;
     }
 
     private function signRequest($method, $uri, $body, $timestamp, $secret_key)
@@ -108,6 +136,17 @@ class Connection
                     $this->secret_key
                 ),
             ];
+
+            if ($this->hasPartnerCredentials()) {
+                $header['Shop-Partner-Client-Key'] = $this->partner_client_key;
+                $header['Shop-Partner-Signature'] = $this->signRequest(
+                    $method,
+                    $this->url.$uri.$query,
+                    $body,
+                    $timestamp,
+                    $this->partner_secret_key
+                );
+            }
 
             $options['headers'] = $header;
 

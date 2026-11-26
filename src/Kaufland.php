@@ -41,10 +41,14 @@ class Kaufland
 
     protected string $user_agent = 'Kaufland-php-client/V1';
 
+    protected ?string $partner_client_key = null;
+
+    protected ?string $partner_secret_key = null;
+
     /**
-     * @var Connection
+     * @var ?Connection
      */
-    protected $connection;
+    protected $connection = null;
 
     /**
      * @param string $client_key
@@ -77,13 +81,41 @@ class Kaufland
     }
 
     /**
+     * Client Key (32 chars) of your technology partner credentials. Adds the Shop-Partner-Client-Key header.
+     */
+    public function setPartnerClientKey(string $partner_client_key): static
+    {
+        $this->partner_client_key = $partner_client_key;
+        $this->connection = null;
+
+        return $this;
+    }
+
+    /**
+     * Secret Key (64 chars) of your technology partner credentials. Used to sign the Shop-Partner-Signature header.
+     */
+    public function setPartnerSecretKey(string $partner_secret_key): static
+    {
+        $this->partner_secret_key = $partner_secret_key;
+        $this->connection = null;
+
+        return $this;
+    }
+
+    /**
      * @return Connection
      * @throws Exceptions\KauflandNoCredentialsException
      */
     private function getConnection(): Connection
     {
         if ($this->connection == null) {
-            $this->connection = new Connection($this->client_key, $this->secret_key, $this->user_agent);
+            $this->connection = new Connection(
+                $this->client_key,
+                $this->secret_key,
+                $this->user_agent,
+                $this->partner_client_key,
+                $this->partner_secret_key
+            );
         }
 
         return $this->connection;
